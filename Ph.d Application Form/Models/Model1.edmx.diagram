@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f56295f9146f4b83a6e58e595751de3b" Name="Diagram1" ZoomLevel="53">
+        <EntityTypeShape EntityType="PHDModel.PhDCours" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PHDModel.School" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="PHDModel.University" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="PHDModel.FK__PhDCourse__Schoo__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="PHDModel.FK__PhDCourse__Unive__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="PHDModel.FK__Schools__Univers__4BAC3F29" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PHDModel.AdditionalPhDDetail" Width="1.5" PointX="9.75" PointY="14.125" />
+        <EntityTypeShape EntityType="PHDModel.ApplicantBackgroundDetail" Width="1.5" PointX="12.75" PointY="18.5" />
+        <EntityTypeShape EntityType="PHDModel.ArticlesAndResearch" Width="1.5" PointX="12.75" PointY="14.375" />
+        <EntityTypeShape EntityType="PHDModel.AwardsAndRecognition" Width="1.5" PointX="12.75" PointY="6.375" />
+        <EntityTypeShape EntityType="PHDModel.LanguageProficiency" Width="1.5" PointX="12.75" PointY="10" />
+        <EntityTypeShape EntityType="PHDModel.PhDEmploymentAndResearchDetail" Width="1.5" PointX="9.75" PointY="4" />
+        <EntityTypeShape EntityType="PHDModel.Reference" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PHDModel.SeminarOrConference" Width="1.5" PointX="15.75" PointY="5.375" />
+        <EntityTypeShape EntityType="PHDModel.WorkExperience" Width="1.5" PointX="15.75" PointY="10" />
+        <AssociationConnector Association="PHDModel.FK__Additiona__Schoo__5BE2A6F2" />
+        <AssociationConnector Association="PHDModel.FK__Additiona__Unive__5AEE82B9" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Schoo__60A75C0F" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Unive__5FB337D6" />
+        <AssociationConnector Association="PHDModel.FK__ArticlesA__Schoo__797309D9" />
+        <AssociationConnector Association="PHDModel.FK__ArticlesA__Unive__787EE5A0" />
+        <AssociationConnector Association="PHDModel.FK__AwardsAnd__Schoo__693CA210" />
+        <AssociationConnector Association="PHDModel.FK__AwardsAnd__Unive__68487DD7" />
+        <AssociationConnector Association="PHDModel.FK__LanguageP__Schoo__74AE54BC" />
+        <AssociationConnector Association="PHDModel.FK__LanguageP__Unive__73BA3083" />
+        <AssociationConnector Association="PHDModel.FK__PhDEmploy__Schoo__0C85DE4D" />
+        <AssociationConnector Association="PHDModel.FK__PhDEmploy__Unive__0B91BA14" />
+        <AssociationConnector Association="PHDModel.FK__Reference__Schoo__02FC7413" />
+        <AssociationConnector Association="PHDModel.FK__Reference__Unive__02084FDA" />
+        <AssociationConnector Association="PHDModel.FK__SeminarOr__Schoo__7E37BEF6" />
+        <AssociationConnector Association="PHDModel.FK__WorkExper__Schoo__6EF57B66" />
+        <AssociationConnector Association="PHDModel.FK__SeminarOr__Unive__7D439ABD" />
+        <AssociationConnector Association="PHDModel.FK__WorkExper__Unive__6E01572D" />
+        <EntityTypeShape EntityType="PHDModel.Publication" Width="1.5" PointX="9.75" PointY="9" />
+        <AssociationConnector Association="PHDModel.FK__Publicati__Schoo__114A936A" />
+        <AssociationConnector Association="PHDModel.FK__Publicati__Unive__10566F31" />
+        <EntityTypeShape EntityType="PHDModel.Applicant" Width="1.5" PointX="7.5" PointY="2.625" />
+        <AssociationConnector Association="PHDModel.FK__Additiona__Appli__59FA5E80" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Appli__5EBF139D" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Cours__5441852A" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Schoo__534D60F1" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Unive__52593CB8" />
+        <AssociationConnector Association="PHDModel.FK__ArticlesA__Appli__778AC167" />
+        <AssociationConnector Association="PHDModel.FK__AwardsAnd__Appli__6754599E" />
+        <AssociationConnector Association="PHDModel.FK__LanguageP__Appli__72C60C4A" />
+        <AssociationConnector Association="PHDModel.FK__PhDEmploy__Appli__0A9D95DB" />
+        <AssociationConnector Association="PHDModel.FK__Publicati__Appli__0F624AF8" />
+        <AssociationConnector Association="PHDModel.FK__Reference__Appli__01142BA1" />
+        <AssociationConnector Association="PHDModel.FK__SeminarOr__Appli__7C4F7684" />
+        <AssociationConnector Association="PHDModel.FK__WorkExper__Appli__6D0D32F4" />
+        <EntityTypeShape EntityType="PHDModel.ApplicantAcademicRecord" Width="1.5" PointX="9.75" PointY="0.75" />
+        <AssociationConnector Association="PHDModel.FK__Applicant__Appli__571DF1D5" />
+        <EntityTypeShape EntityType="PHDModel.PhDQuestionnaire" Width="1.5" PointX="15.75" PointY="1.25" />
+        <AssociationConnector Association="PHDModel.FK__PhDQuesti__Appli__05D8E0BE" />
+        <AssociationConnector Association="PHDModel.FK__PhDQuesti__Schoo__07C12930" />
+        <AssociationConnector Association="PHDModel.FK__PhDQuesti__Unive__06CD04F7" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
