@@ -21,6 +21,7 @@ namespace Ph.d_Application_Form.Models
         public string TitleOfArticle { get; set; }
         public string JournalOrMagazine { get; set; }
         public Nullable<System.DateTime> PublishedDate { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

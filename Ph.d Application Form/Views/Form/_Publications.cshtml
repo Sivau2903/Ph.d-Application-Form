@@ -1,0 +1,99 @@
+﻿@model Ph.d_Application_Form.Models.ApplicationFormHeaderViewModel
+
+<div class="experience-section">
+    <h4>Work Experience</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Employer Name</th>
+                <th>Employer Address</th>
+                <th>Date of Joining</th>
+                <th>Date of Leaving</th>
+                <th>No. of Years</th>
+                <th>Designation</th>
+                <th>Area of Work</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exp in Model.WorkExperiences)
+            {
+                <tr>
+                    <td>@exp.EmployerName</td>
+                    <td>@exp.EmployerAddress</td>
+                    <td>@exp.DateOfJoining.ToShortDateString()</td>
+                    <td>@exp.DateOfLeaving?.ToShortDateString()</td>
+                    <td>@exp.NoOfYears</td>
+                    <td>@exp.Designation</td>
+                    <td>@exp.AreaOfWork</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="publication-section mt-4">
+    <h4>Publications</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title of Paper</th>
+                <th>Authors</th>
+                <th>Journal</th>
+                <th>Indexed In</th>
+                <th>Volume No</th>
+                <th>Year</th>
+                <th>Page From-To</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pub in Model.Publications)
+            {
+                <tr>
+                    <td>@pub.TitleOfPaper</td>
+                    <td>@pub.Authors</td>
+                    <td>@pub.Journal</td>
+                    <td>@pub.IndexedIn</td>
+                    <td>@pub.VolumeNo</td>
+                    <td>@pub.Year</td>
+                    <td>@pub.PageFromTo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="reference-section mt-4">
+    <h4>References</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Qualification</th>
+                <th>Occupation</th>
+                <th>Designation</th>
+                <th>Organization Address</th>
+                <th>City</th>
+                <th>Pin Code</th>
+                <th>Mobile</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reference in Model.References)
+            {
+                <tr>
+                    <td>@reference.Name</td>
+                    <td>@reference.Qualification</td>
+                    <td>@reference.Occupation</td>
+                    <td>@reference.Designation</td>
+                    <td>@reference.OrganizationAddress</td>
+                    <td>@reference.City</td>
+                    <td>@reference.PinCode</td>
+                    <td>@reference.Mobile</td>
+                    <td>@reference.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

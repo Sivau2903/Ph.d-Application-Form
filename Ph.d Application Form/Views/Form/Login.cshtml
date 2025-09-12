@@ -1,0 +1,135 @@
+﻿@model Ph.d_Application_Form.Models.LoginViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+<style>
+    body {
+        background: linear-gradient(to right, #e0f7fa, #ffffff);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .form-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 30px 15px;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+        border-top: 8px solid #d32f2f;
+        border-bottom: 4px solid #1976d2;
+    }
+
+    .form-title {
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #2c3e50;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #37474f;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #1976d2;
+            outline: none;
+            box-shadow: 0 0 5px rgba(25, 118, 210, 0.2);
+        }
+
+    .btn-submit {
+        width: 100%;
+        background-color: #1976d2;
+        color: white;
+        font-size: 16px;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #145ca0;
+        }
+
+    .icfai-logo {
+        display: block;
+        margin: 0 auto 20px;
+        max-width: 120px;
+    }
+</style>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background: linear-gradient(135deg, #1E3A8A, #EF4444);">
+    <div class="card shadow-lg p-4 rounded-3" style="width: 400px; background-color: #fff;">
+        <h2 class="text-center mb-4" style="color: #1E3A8A;">Login</h2>
+
+        @using (Html.BeginForm("Login", "Form", FormMethod.Post))
+        {
+            <!-- Username -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" style="color: #1E3A8A;">Username</label>
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control border-primary shadow-sm", placeholder = "Enter your email" })
+            </div>
+
+            <!-- Password -->
+            <!-- DOB (instead of Password) -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" style="color: #1E3A8A;">Date of Birth</label>
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control border-primary shadow-sm", type = "date", placeholder = "Select your date of birth" })
+            </div>
+
+
+            <!-- Captcha -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" style="color: #1E3A8A;">Enter Captcha</label>
+                <div class="d-flex align-items-center gap-2">
+                    @Html.TextBoxFor(m => m.CaptchaCode, new { @class = "form-control border-primary shadow-sm", placeholder = "Enter captcha" })
+                    <img src="@Url.Action("GenerateCaptcha", "Form")" alt="Captcha" class="rounded border border-danger" />
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger text-center p-2 mb-3">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <!-- Login Button -->
+            <button type="submit" class="btn w-100 text-white shadow-sm" style="background-color: #1E3A8A; border-radius: 25px; font-weight: bold;">Login</button>
+
+            <!-- New User Link -->
+            <div class="text-center mt-3">
+                <a href="@Url.Action("Index", "Form")" class="text-decoration-none fw-bold" style="color: #EF4444;">New user? Start Application</a>
+            </div>
+        }
+    </div>
+</div>

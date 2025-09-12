@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Ph.d_Application_Form.Models.PaymentReport>
+
+@{
+    ViewBag.Title = "PaymentsReport";
+
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+  
+    .mt-4 {
+        margin-top: 0.5rem !important;
+    }
+    .table {
+        margin-top: 25px;
+        padding-top:3px;
+    }
+</style>
+
+
+<div class="container mt-4">
+
+
+    <div class="card-title ">
+        <h2>Payments Reports</h2>
+    </div>
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>ApplicantID</th>
+                <th>Application No</th>
+                <th>Transaction No</th>
+                <th>Transaction Date</th>
+                <th>Transaction Category</th>
+                <th>Registered Date</th>
+                <th>Program</th>
+                <th>Program Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ApplicantID</td>
+                        <td>@item.ApplicationNo</td>
+                        <td>@item.TransactionNo</td>
+                        <td>@item.TransactionDate.ToString("dd-MMM-yyyy")</td>
+                        <td>@item.TransactionCategory</td>
+                        <td>@item.RegisteredDate.ToString("dd-MMM-yyyy")</td>
+                        <td>@item.Program</td>
+                        <td>@item.ProgramType</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No payment records found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

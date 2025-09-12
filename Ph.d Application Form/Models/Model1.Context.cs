@@ -41,5 +41,9 @@ namespace Ph.d_Application_Form.Models
         public virtual DbSet<Applicant> Applicants { get; set; }
         public virtual DbSet<ApplicantAcademicRecord> ApplicantAcademicRecords { get; set; }
         public virtual DbSet<PhDQuestionnaire> PhDQuestionnaires { get; set; }
+        public virtual DbSet<PaymentReport> PaymentReports { get; set; }
+        public virtual DbSet<ApplicationsReport> ApplicationsReports { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
     }
 }

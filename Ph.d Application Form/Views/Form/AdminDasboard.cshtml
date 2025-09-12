@@ -1,0 +1,63 @@
+﻿@model Ph.d_Application_Form.Models.User
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Home";
+}
+
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 600px; border-radius: 15px; background: linear-gradient(135deg, #e3f2fd, #bbdefb);">
+        <h1 class="display-5 fw-bold text-primary mb-3">Welcome to Librarian Dashboard</h1>
+        <p class="lead text-dark mb-4">You are logged in as <strong class="text-dark">@Model.Role</strong>.</p>
+        <hr class="w-50 mx-auto mb-4" style="border-top: 2px solid #007bff;" />
+        <p class="text-dark">Use the sidebar to navigate through Applicants Report, Payment Report, and your profile.</p>
+    </div>
+
+
+<style>
+    .container {
+        min-height: calc(100vh - 150px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #f8f9fa, #e3f2fd);
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+    
+        max-width: 687px;
+        margin-top: 150px;
+        border-radius: 28px;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .display-5 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1e3a8a;
+    }
+
+    .lead {
+        font-size: 1.25rem;
+        color: #374151;
+    }
+
+    hr {
+        border-color: #3b82f6;
+        opacity: 0.8;
+    }
+
+    @@media (max-width: 576px) {
+        .display-5 {
+            font-size: 2rem;
+        }
+
+        .lead {
+            font-size: 1.1rem;
+        }
+    }
+</style>

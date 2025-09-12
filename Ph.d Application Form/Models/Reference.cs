@@ -27,6 +27,7 @@ namespace Ph.d_Application_Form.Models
         public string PinCode { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

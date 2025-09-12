@@ -1,0 +1,41 @@
+﻿@model Ph.d_Application_Form.Models.Applicant
+
+<div class="card shadow-lg border-0 p-4 glass-card mt-3">
+    <h5 class="mb-3 text-primary fw-bold">Personal Details</h5>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Applicant ID:</strong> @Model.ApplicantID</p>
+            <p><strong>Full Name:</strong> @Model.FullName</p>
+            <p><strong>Father/Mother Name:</strong> @Model.FatherMotherName</p>
+            <p><strong>Date of Birth:</strong> @Model.DateOfBirth?.ToString("dd MMM yyyy")</p>
+            <p><strong>Gender:</strong> @Model.Gender</p>
+            <p><strong>Blood Group:</strong> @Model.BloodGroup</p>
+            <p><strong>Category:</strong> @Model.Category</p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Aadhaar Number:</strong> @Model.AadhaarNumber</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Parent Email:</strong> @Model.ParentEmail</p>
+            <p><strong>Mobile:</strong> @Model.MobileNumber</p>
+            <p><strong>WhatsApp:</strong> @Model.WhatsAppNumber</p>
+            <p><strong>Alternate Contact:</strong> @Model.AlternateContact</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <p><strong>Address:</strong> @Model.AddressLine, @Model.City, @Model.State - @Model.Pincode</p>
+        </div>
+        <div class="col-md-2 text-center">
+            <img src="@Url.Content(Model.PhotoPath)" class="img-thumbnail" style="max-width: 120px;" />
+            <p class="small text-muted">Photo</p>
+        </div>
+        <div class="col-md-2 text-center">
+            <img src="@Url.Content(Model.SignaturePath)" class="img-thumbnail" style="max-width: 120px;" />
+            <p class="small text-muted">Signature</p>
+        </div>
+    </div>
+</div>
+

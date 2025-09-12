@@ -26,6 +26,7 @@ namespace Ph.d_Application_Form.Models
         public string MonthOfPassing { get; set; }
         public string YearOfPassing { get; set; }
         public string PercentageOrCGPA { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual Applicant Applicant { get; set; }
     }

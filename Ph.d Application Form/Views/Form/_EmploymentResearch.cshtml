@@ -1,0 +1,33 @@
+﻿@model Ph.d_Application_Form.Models.PhDEmploymentAndResearchDetail
+
+@if (Model != null)
+{
+    <div class="card p-3">
+        <h5 class="text-primary">Employment & Research Details</h5>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <p><strong>Currently Employed:</strong> @(Model.IsEmployed ? "Yes" : "No")</p>
+                <p><strong>Employer Name:</strong> @Model.PresentEmployerName</p>
+                <p><strong>Designation:</strong> @Model.EmployeeDesignation</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>NOC Attached:</strong> @(Model.HasAttachedNOC == true ? "Yes" : "No")</p>
+                <p><strong>Employer Permission:</strong> @(Model.HasEmployerPermission == true ? "Yes" : "No")</p>
+            </div>
+        </div>
+
+        <h6 class="text-secondary">Research Information</h6>
+        <p><strong>Research Area:</strong> @Model.ResearchArea</p>
+        <p><strong>Problem Statement:</strong> @Model.ResearchProblemStatement</p>
+
+        <p class="text-muted mt-2">
+            <strong>Last Updated:</strong> @Model.InsertedDate?.ToString("dd-MM-yyyy")
+        </p>
+    </div>
+}
+else
+{
+    <p class="text-danger">No employment & research details found.</p>
+}
+

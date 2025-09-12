@@ -1,0 +1,109 @@
+﻿@model Ph.d_Application_Form.Models.ApplicationFormHeaderViewModel
+@* ExperienceViewModel should hold Lists:
+    List<WorkExperience> WorkExperience
+    List<AwardsAndRecognition> Awards
+    List<LanguageProficiency> Languages *@
+
+<div class="card p-3">
+    <h4 class="text-primary">Step 4 - Experience & Related Details</h4>
+
+    <!-- Work Experience Section -->
+    <h5 class="mt-3 text-secondary">Work Experience</h5>
+    @if (Model.WorkExperience != null && Model.WorkExperience.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Employer Name</th>
+                    <th>Designation</th>
+                    <th>Area of Work</th>
+                    <th>Date of Joining</th>
+                    <th>Date of Leaving</th>
+                    <th>No. of Years</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var exp in Model.WorkExperience)
+                {
+                    <tr>
+                        <td>@exp.EmployerName</td>
+                        <td>@exp.Designation</td>
+                        <td>@exp.AreaOfWork</td>
+                        <td>@exp.DateOfJoining.ToString("dd-MM-yyyy")</td>
+                        <td>@exp.DateOfLeaving?.ToString("dd-MM-yyyy")</td>
+                        <td>@exp.NoOfYears</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No work experience records found.</p>
+    }
+
+    <!-- Awards & Recognitions Section -->
+    <h5 class="mt-4 text-secondary">Awards & Recognitions</h5>
+    @if (Model.Awards != null && Model.Awards.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Award Title</th>
+                    <th>Year</th>
+                    <th>Basis</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var award in Model.Awards)
+                {
+                    <tr>
+                        <td>@award.AwardTitle</td>
+                        <td>@award.AwardYear</td>
+                        <td>@award.Basis</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No awards or recognitions found.</p>
+    }
+
+    <!-- Language Proficiency Section -->
+    <h5 class="mt-4 text-secondary">Language Proficiency</h5>
+    @if (Model.Languages != null && Model.Languages.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Language</th>
+                    <th>Read</th>
+                    <th>Write</th>
+                    <th>Speak</th>
+                    <th>Health Issues</th>
+                    <th>Legal Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lang in Model.Languages)
+                {
+                    <tr>
+                        <td>@lang.Language</td>
+                        <td><input type="checkbox" disabled @(lang.CanRead ? "checked" : "") /></td>
+                        <td><input type="checkbox" disabled @(lang.CanWrite ? "checked" : "") /></td>
+                        <td><input type="checkbox" disabled @(lang.CanSpeak ? "checked" : "") /></td>
+                        <td>@lang.HealthIssue</td>
+                        <td>@lang.LegalCases</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No language proficiency records found.</p>
+    }
+</div>
+

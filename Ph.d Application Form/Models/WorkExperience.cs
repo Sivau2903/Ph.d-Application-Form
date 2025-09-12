@@ -25,6 +25,7 @@ namespace Ph.d_Application_Form.Models
         public decimal NoOfYears { get; set; }
         public string Designation { get; set; }
         public string AreaOfWork { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

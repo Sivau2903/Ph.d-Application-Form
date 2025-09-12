@@ -34,6 +34,7 @@ namespace Ph.d_Application_Form.Models
         public string Experience { get; set; }
         public Nullable<System.DateTime> DateOfEnrollmentAsAdvocate { get; set; }
         public string ReasonForPursuing { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

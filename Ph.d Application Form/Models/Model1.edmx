@@ -29,6 +29,20 @@
           <Property Name="Experience" Type="nvarchar" MaxLength="100" />
           <Property Name="DateOfEnrollmentAsAdvocate" Type="date" />
           <Property Name="ReasonForPursuing" Type="nvarchar(max)" />
+          <Property Name="InsertedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="EmailID" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UniversityID" Type="int" />
+          <Property Name="SchoolID" Type="int" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicantAcademicRecords">
           <Key>
@@ -46,6 +60,7 @@
           <Property Name="MonthOfPassing" Type="nvarchar" MaxLength="20" />
           <Property Name="YearOfPassing" Type="nvarchar" MaxLength="10" />
           <Property Name="PercentageOrCGPA" Type="nvarchar" MaxLength="20" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ApplicantBackgroundDetails">
           <Key>
@@ -66,6 +81,7 @@
           <Property Name="FatherAnnualIncome" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FatherContactNumber" Type="nvarchar" MaxLength="15" />
           <Property Name="ImageCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Applicants">
           <Key>
@@ -95,6 +111,40 @@
           <Property Name="Pincode" Type="nvarchar" MaxLength="10" />
           <Property Name="PhotoPath" Type="nvarchar" MaxLength="300" />
           <Property Name="SignaturePath" Type="nvarchar" MaxLength="300" />
+          <Property Name="InsertedDate" Type="datetime" />
+          <Property Name="ApplicationNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="TransactionDate" Type="datetime" />
+          <Property Name="TransactionCategory" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ApplicationsReports">
+          <Key>
+            <PropertyRef Name="ApplicantReportID" />
+          </Key>
+          <Property Name="ApplicantReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicantID" Type="int" Nullable="false" />
+          <Property Name="ApplicationNumber" Type="varchar" MaxLength="50" />
+          <Property Name="PersonalDetails" Type="bit" />
+          <Property Name="PersonalDetailsDate" Type="datetime" />
+          <Property Name="AcademicDetails" Type="bit" />
+          <Property Name="AcademicDetailsDate" Type="datetime" />
+          <Property Name="LastAttended" Type="bit" />
+          <Property Name="LastAttendedDate" Type="datetime" />
+          <Property Name="WorkExperienceAwards" Type="bit" />
+          <Property Name="WorkExperienceAwardsDate" Type="datetime" />
+          <Property Name="ArticlesReferences" Type="bit" />
+          <Property Name="ArticlesReferencesDate" Type="datetime" />
+          <Property Name="PublicationsExperiencesReferences" Type="bit" />
+          <Property Name="PublicationsExperiencesReferencesDate" Type="datetime" />
+          <Property Name="EmploymentResearch" Type="bit" />
+          <Property Name="EmploymentResearchDate" Type="datetime" />
+          <Property Name="Questionnaire" Type="bit" />
+          <Property Name="QuestionnaireDate" Type="datetime" />
+          <Property Name="FinalSubmission" Type="bit" />
+          <Property Name="FinalSubmissionDate" Type="datetime" />
+          <Property Name="InsertedDate" Type="datetime" Nullable="false" />
+          <Property Name="UniversityID" Type="int" />
+          <Property Name="SchoolID" Type="int" />
         </EntityType>
         <EntityType Name="ArticlesAndResearches">
           <Key>
@@ -107,6 +157,7 @@
           <Property Name="TitleOfArticle" Type="nvarchar" MaxLength="255" />
           <Property Name="JournalOrMagazine" Type="nvarchar" MaxLength="255" />
           <Property Name="PublishedDate" Type="date" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="AwardsAndRecognitions">
           <Key>
@@ -119,6 +170,7 @@
           <Property Name="AwardTitle" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="AwardYear" Type="int" Nullable="false" />
           <Property Name="Basis" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="LanguageProficiency">
           <Key>
@@ -134,6 +186,23 @@
           <Property Name="CanSpeak" Type="bit" Nullable="false" />
           <Property Name="HealthIssue" Type="nvarchar" MaxLength="200" />
           <Property Name="LegalCases" Type="nvarchar(max)" />
+          <Property Name="InsertedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PaymentReport">
+          <Key>
+            <PropertyRef Name="PaymentReportID" />
+          </Key>
+          <Property Name="PaymentReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicationNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+          <Property Name="TransactionCategory" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegisteredDate" Type="datetime" Nullable="false" />
+          <Property Name="Program" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProgramType" Type="nvarchar" MaxLength="100" />
+          <Property Name="SchoolID" Type="int" />
+          <Property Name="UniversityID" Type="int" />
+          <Property Name="ApplicantID" Type="int" />
         </EntityType>
         <EntityType Name="PhDCourses">
           <Key>
@@ -161,6 +230,7 @@
           <Property Name="HasEmployerPermission" Type="bit" />
           <Property Name="ResearchArea" Type="nvarchar" MaxLength="300" />
           <Property Name="ResearchProblemStatement" Type="nvarchar(max)" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="PhDQuestionnaire">
           <Key>
@@ -175,6 +245,7 @@
           <Property Name="ReasonForJoining" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="KnowAnyoneInICFAI" Type="bit" />
           <Property Name="IntendedResearchArea" Type="nvarchar" MaxLength="1500" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Publications">
           <Key>
@@ -191,6 +262,7 @@
           <Property Name="VolumeNo" Type="nvarchar" MaxLength="100" />
           <Property Name="Year" Type="int" />
           <Property Name="PageFromTo" Type="int" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Reference">
           <Key>
@@ -209,6 +281,7 @@
           <Property Name="PinCode" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Schools">
           <Key>
@@ -224,6 +297,7 @@
           <Property Name="LogoPath" Type="nvarchar" MaxLength="300" />
           <Property Name="AllowsFullTime" Type="bit" />
           <Property Name="AllowsPartTime" Type="bit" />
+          <Property Name="Steps" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SeminarOrConferences">
           <Key>
@@ -236,6 +310,7 @@
           <Property Name="Topic" Type="nvarchar" MaxLength="255" />
           <Property Name="OrganizedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="SeminarDate" Type="date" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Universities">
           <Key>
@@ -250,6 +325,24 @@
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="WebsiteURL" Type="nvarchar" MaxLength="200" />
           <Property Name="LogoPath" Type="nvarchar" MaxLength="300" />
+          <Property Name="Steps" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicantID" Type="int" Nullable="false" />
+          <Property Name="EmailID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="UniversityID" Type="int" Nullable="false" />
+          <Property Name="SchoolID" Type="int" />
+          <Property Name="VisibleSteps" Type="nvarchar(max)" />
+          <Property Name="CurrentStep" Type="int" />
+          <Property Name="InsertedDate" Type="datetime" />
+          <Property Name="status" Type="varchar" MaxLength="100" />
+          <Property Name="Role" Type="varchar" MaxLength="100" />
+          <Property Name="AdminID" Type="int" />
         </EntityType>
         <EntityType Name="WorkExperience">
           <Key>
@@ -266,8 +359,9 @@
           <Property Name="NoOfYears" Type="decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="Designation" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="AreaOfWork" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="InsertedDate" Type="datetime" />
         </EntityType>
-        <Association Name="FK__Additiona__Appli__59FA5E80">
+        <Association Name="FK__Additiona__Appli__5441852A">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="0..1" />
           <End Role="AdditionalPhDDetails" Type="Self.AdditionalPhDDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -279,7 +373,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Additiona__Schoo__5BE2A6F2">
+        <Association Name="FK__Additiona__Schoo__5535A963">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="AdditionalPhDDetails" Type="Self.AdditionalPhDDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -291,7 +385,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Additiona__Unive__5AEE82B9">
+        <Association Name="FK__Additiona__Unive__5629CD9C">
           <End Role="Universities" Type="Self.Universities" Multiplicity="0..1" />
           <End Role="AdditionalPhDDetails" Type="Self.AdditionalPhDDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -315,7 +409,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Applicant__Appli__5EBF139D">
+        <Association Name="FK__Applicant__Appli__5812160E">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="ApplicantBackgroundDetails" Type="Self.ApplicantBackgroundDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -327,7 +421,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Applicant__Cours__5441852A">
+        <Association Name="FK__Applicant__Cours__5AEE82B9">
           <End Role="PhDCourses" Type="Self.PhDCourses" Multiplicity="0..1" />
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -339,7 +433,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Applicant__Schoo__60A75C0F">
+        <Association Name="FK__Applicant__Schoo__59063A47">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="ApplicantBackgroundDetails" Type="Self.ApplicantBackgroundDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -351,7 +445,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Applicant__Unive__52593CB8">
+        <Association Name="FK__Applicant__Unive__59FA5E80">
+          <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
+          <End Role="ApplicantBackgroundDetails" Type="Self.ApplicantBackgroundDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Universities">
+              <PropertyRef Name="UniversityID" />
+            </Principal>
+            <Dependent Role="ApplicantBackgroundDetails">
+              <PropertyRef Name="UniversityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Applicant__Unive__5BE2A6F2">
           <End Role="Universities" Type="Self.Universities" Multiplicity="0..1" />
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -363,19 +469,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Applicant__Unive__5FB337D6">
-          <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
-          <End Role="ApplicantBackgroundDetails" Type="Self.ApplicantBackgroundDetails" Multiplicity="*" />
+        <Association Name="FK__Applicati__Appli__3A4CA8FD">
+          <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
+          <End Role="ApplicationsReports" Type="Self.ApplicationsReports" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Universities">
-              <PropertyRef Name="UniversityID" />
+            <Principal Role="Applicants">
+              <PropertyRef Name="ApplicantID" />
             </Principal>
-            <Dependent Role="ApplicantBackgroundDetails">
-              <PropertyRef Name="UniversityID" />
+            <Dependent Role="ApplicationsReports">
+              <PropertyRef Name="ApplicantID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ArticlesA__Appli__778AC167">
+        <Association Name="FK__ArticlesA__Appli__5DCAEF64">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="ArticlesAndResearches" Type="Self.ArticlesAndResearches" Multiplicity="*" />
           <ReferentialConstraint>
@@ -387,7 +493,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ArticlesA__Schoo__797309D9">
+        <Association Name="FK__ArticlesA__Schoo__5EBF139D">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="ArticlesAndResearches" Type="Self.ArticlesAndResearches" Multiplicity="*" />
           <ReferentialConstraint>
@@ -399,7 +505,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ArticlesA__Unive__787EE5A0">
+        <Association Name="FK__ArticlesA__Unive__5FB337D6">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="ArticlesAndResearches" Type="Self.ArticlesAndResearches" Multiplicity="*" />
           <ReferentialConstraint>
@@ -411,7 +517,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AwardsAnd__Appli__6754599E">
+        <Association Name="FK__AwardsAnd__Appli__60A75C0F">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="AwardsAndRecognitions" Type="Self.AwardsAndRecognitions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -423,7 +529,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AwardsAnd__Schoo__693CA210">
+        <Association Name="FK__AwardsAnd__Schoo__619B8048">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="AwardsAndRecognitions" Type="Self.AwardsAndRecognitions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -435,7 +541,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__AwardsAnd__Unive__68487DD7">
+        <Association Name="FK__AwardsAnd__Unive__628FA481">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="AwardsAndRecognitions" Type="Self.AwardsAndRecognitions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -447,7 +553,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LanguageP__Appli__72C60C4A">
+        <Association Name="FK__LanguageP__Appli__6383C8BA">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="LanguageProficiency" Type="Self.LanguageProficiency" Multiplicity="*" />
           <ReferentialConstraint>
@@ -459,7 +565,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LanguageP__Schoo__74AE54BC">
+        <Association Name="FK__LanguageP__Schoo__6477ECF3">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="LanguageProficiency" Type="Self.LanguageProficiency" Multiplicity="*" />
           <ReferentialConstraint>
@@ -471,7 +577,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__LanguageP__Unive__73BA3083">
+        <Association Name="FK__LanguageP__Unive__656C112C">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="LanguageProficiency" Type="Self.LanguageProficiency" Multiplicity="*" />
           <ReferentialConstraint>
@@ -483,7 +589,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDCourse__Schoo__4E88ABD4">
+        <Association Name="FK__PhDCourse__Schoo__66603565">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="PhDCourses" Type="Self.PhDCourses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -495,7 +601,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDCourse__Unive__4F7CD00D">
+        <Association Name="FK__PhDCourse__Unive__6754599E">
           <End Role="Universities" Type="Self.Universities" Multiplicity="0..1" />
           <End Role="PhDCourses" Type="Self.PhDCourses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -507,7 +613,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDEmploy__Appli__0A9D95DB">
+        <Association Name="FK__PhDEmploy__Appli__68487DD7">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="PhDEmploymentAndResearchDetails" Type="Self.PhDEmploymentAndResearchDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -519,7 +625,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDEmploy__Schoo__0C85DE4D">
+        <Association Name="FK__PhDEmploy__Schoo__693CA210">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="PhDEmploymentAndResearchDetails" Type="Self.PhDEmploymentAndResearchDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -531,7 +637,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDEmploy__Unive__0B91BA14">
+        <Association Name="FK__PhDEmploy__Unive__6A30C649">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="PhDEmploymentAndResearchDetails" Type="Self.PhDEmploymentAndResearchDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -543,7 +649,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDQuesti__Appli__05D8E0BE">
+        <Association Name="FK__PhDQuesti__Appli__6B24EA82">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="PhDQuestionnaire" Type="Self.PhDQuestionnaire" Multiplicity="*" />
           <ReferentialConstraint>
@@ -555,7 +661,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDQuesti__Schoo__07C12930">
+        <Association Name="FK__PhDQuesti__Schoo__6C190EBB">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="PhDQuestionnaire" Type="Self.PhDQuestionnaire" Multiplicity="*" />
           <ReferentialConstraint>
@@ -567,7 +673,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhDQuesti__Unive__06CD04F7">
+        <Association Name="FK__PhDQuesti__Unive__6D0D32F4">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="PhDQuestionnaire" Type="Self.PhDQuestionnaire" Multiplicity="*" />
           <ReferentialConstraint>
@@ -579,7 +685,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Publicati__Appli__0F624AF8">
+        <Association Name="FK__Publicati__Appli__6E01572D">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="0..1" />
           <End Role="Publications" Type="Self.Publications" Multiplicity="*" />
           <ReferentialConstraint>
@@ -591,7 +697,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Publicati__Schoo__114A936A">
+        <Association Name="FK__Publicati__Schoo__6EF57B66">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="Publications" Type="Self.Publications" Multiplicity="*" />
           <ReferentialConstraint>
@@ -603,7 +709,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Publicati__Unive__10566F31">
+        <Association Name="FK__Publicati__Unive__6FE99F9F">
           <End Role="Universities" Type="Self.Universities" Multiplicity="0..1" />
           <End Role="Publications" Type="Self.Publications" Multiplicity="*" />
           <ReferentialConstraint>
@@ -615,7 +721,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reference__Appli__01142BA1">
+        <Association Name="FK__Reference__Appli__70DDC3D8">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="Reference" Type="Self.Reference" Multiplicity="*" />
           <ReferentialConstraint>
@@ -627,7 +733,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reference__Schoo__02FC7413">
+        <Association Name="FK__Reference__Schoo__71D1E811">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="Reference" Type="Self.Reference" Multiplicity="*" />
           <ReferentialConstraint>
@@ -639,7 +745,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reference__Unive__02084FDA">
+        <Association Name="FK__Reference__Unive__72C60C4A">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="Reference" Type="Self.Reference" Multiplicity="*" />
           <ReferentialConstraint>
@@ -651,7 +757,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Schools__Univers__4BAC3F29">
+        <Association Name="FK__Schools__Univers__73BA3083">
           <End Role="Universities" Type="Self.Universities" Multiplicity="0..1" />
           <End Role="Schools" Type="Self.Schools" Multiplicity="*" />
           <ReferentialConstraint>
@@ -663,7 +769,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SeminarOr__Appli__7C4F7684">
+        <Association Name="FK__SeminarOr__Appli__74AE54BC">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="SeminarOrConferences" Type="Self.SeminarOrConferences" Multiplicity="*" />
           <ReferentialConstraint>
@@ -675,7 +781,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SeminarOr__Schoo__7E37BEF6">
+        <Association Name="FK__SeminarOr__Schoo__75A278F5">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="SeminarOrConferences" Type="Self.SeminarOrConferences" Multiplicity="*" />
           <ReferentialConstraint>
@@ -687,7 +793,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SeminarOr__Unive__7D439ABD">
+        <Association Name="FK__SeminarOr__Unive__76969D2E">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="SeminarOrConferences" Type="Self.SeminarOrConferences" Multiplicity="*" />
           <ReferentialConstraint>
@@ -699,7 +805,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WorkExper__Appli__6D0D32F4">
+        <Association Name="FK__WorkExper__Appli__778AC167">
           <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
           <End Role="WorkExperience" Type="Self.WorkExperience" Multiplicity="*" />
           <ReferentialConstraint>
@@ -711,7 +817,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WorkExper__Schoo__6EF57B66">
+        <Association Name="FK__WorkExper__Schoo__787EE5A0">
           <End Role="Schools" Type="Self.Schools" Multiplicity="0..1" />
           <End Role="WorkExperience" Type="Self.WorkExperience" Multiplicity="*" />
           <ReferentialConstraint>
@@ -723,7 +829,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WorkExper__Unive__6E01572D">
+        <Association Name="FK__WorkExper__Unive__797309D9">
           <End Role="Universities" Type="Self.Universities" Multiplicity="1" />
           <End Role="WorkExperience" Type="Self.WorkExperience" Multiplicity="*" />
           <ReferentialConstraint>
@@ -747,14 +853,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Applicants">
+          <End Role="Applicants" Type="Self.Applicants" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicants">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PHDModelStoreContainer">
           <EntitySet Name="AdditionalPhDDetails" EntityType="Self.AdditionalPhDDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicantAcademicRecords" EntityType="Self.ApplicantAcademicRecords" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicantBackgroundDetails" EntityType="Self.ApplicantBackgroundDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Applicants" EntityType="Self.Applicants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationsReports" EntityType="Self.ApplicationsReports" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ArticlesAndResearches" EntityType="Self.ArticlesAndResearches" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AwardsAndRecognitions" EntityType="Self.AwardsAndRecognitions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LanguageProficiency" EntityType="Self.LanguageProficiency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentReport" EntityType="Self.PaymentReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhDCourses" EntityType="Self.PhDCourses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhDEmploymentAndResearchDetails" EntityType="Self.PhDEmploymentAndResearchDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhDQuestionnaire" EntityType="Self.PhDQuestionnaire" Schema="dbo" store:Type="Tables" />
@@ -763,16 +884,17 @@
           <EntitySet Name="Schools" EntityType="Self.Schools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SeminarOrConferences" EntityType="Self.SeminarOrConferences" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universities" EntityType="Self.Universities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkExperience" EntityType="Self.WorkExperience" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Additiona__Appli__59FA5E80" Association="Self.FK__Additiona__Appli__59FA5E80">
+          <AssociationSet Name="FK__Additiona__Appli__5441852A" Association="Self.FK__Additiona__Appli__5441852A">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="AdditionalPhDDetails" EntitySet="AdditionalPhDDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Additiona__Schoo__5BE2A6F2" Association="Self.FK__Additiona__Schoo__5BE2A6F2">
+          <AssociationSet Name="FK__Additiona__Schoo__5535A963" Association="Self.FK__Additiona__Schoo__5535A963">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="AdditionalPhDDetails" EntitySet="AdditionalPhDDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Additiona__Unive__5AEE82B9" Association="Self.FK__Additiona__Unive__5AEE82B9">
+          <AssociationSet Name="FK__Additiona__Unive__5629CD9C" Association="Self.FK__Additiona__Unive__5629CD9C">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="AdditionalPhDDetails" EntitySet="AdditionalPhDDetails" />
           </AssociationSet>
@@ -780,149 +902,157 @@
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="ApplicantAcademicRecords" EntitySet="ApplicantAcademicRecords" />
           </AssociationSet>
-          <AssociationSet Name="FK__Applicant__Appli__5EBF139D" Association="Self.FK__Applicant__Appli__5EBF139D">
+          <AssociationSet Name="FK__Applicant__Appli__5812160E" Association="Self.FK__Applicant__Appli__5812160E">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="ApplicantBackgroundDetails" EntitySet="ApplicantBackgroundDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Applicant__Cours__5441852A" Association="Self.FK__Applicant__Cours__5441852A">
+          <AssociationSet Name="FK__Applicant__Cours__5AEE82B9" Association="Self.FK__Applicant__Cours__5AEE82B9">
             <End Role="PhDCourses" EntitySet="PhDCourses" />
             <End Role="Applicants" EntitySet="Applicants" />
           </AssociationSet>
-          <AssociationSet Name="FK__Applicant__Schoo__60A75C0F" Association="Self.FK__Applicant__Schoo__60A75C0F">
+          <AssociationSet Name="FK__Applicant__Schoo__59063A47" Association="Self.FK__Applicant__Schoo__59063A47">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="ApplicantBackgroundDetails" EntitySet="ApplicantBackgroundDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Applicant__Unive__52593CB8" Association="Self.FK__Applicant__Unive__52593CB8">
-            <End Role="Universities" EntitySet="Universities" />
-            <End Role="Applicants" EntitySet="Applicants" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Applicant__Unive__5FB337D6" Association="Self.FK__Applicant__Unive__5FB337D6">
+          <AssociationSet Name="FK__Applicant__Unive__59FA5E80" Association="Self.FK__Applicant__Unive__59FA5E80">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="ApplicantBackgroundDetails" EntitySet="ApplicantBackgroundDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__ArticlesA__Appli__778AC167" Association="Self.FK__ArticlesA__Appli__778AC167">
+          <AssociationSet Name="FK__Applicant__Unive__5BE2A6F2" Association="Self.FK__Applicant__Unive__5BE2A6F2">
+            <End Role="Universities" EntitySet="Universities" />
+            <End Role="Applicants" EntitySet="Applicants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Applicati__Appli__3A4CA8FD" Association="Self.FK__Applicati__Appli__3A4CA8FD">
+            <End Role="Applicants" EntitySet="Applicants" />
+            <End Role="ApplicationsReports" EntitySet="ApplicationsReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ArticlesA__Appli__5DCAEF64" Association="Self.FK__ArticlesA__Appli__5DCAEF64">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="ArticlesAndResearches" EntitySet="ArticlesAndResearches" />
           </AssociationSet>
-          <AssociationSet Name="FK__ArticlesA__Schoo__797309D9" Association="Self.FK__ArticlesA__Schoo__797309D9">
+          <AssociationSet Name="FK__ArticlesA__Schoo__5EBF139D" Association="Self.FK__ArticlesA__Schoo__5EBF139D">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="ArticlesAndResearches" EntitySet="ArticlesAndResearches" />
           </AssociationSet>
-          <AssociationSet Name="FK__ArticlesA__Unive__787EE5A0" Association="Self.FK__ArticlesA__Unive__787EE5A0">
+          <AssociationSet Name="FK__ArticlesA__Unive__5FB337D6" Association="Self.FK__ArticlesA__Unive__5FB337D6">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="ArticlesAndResearches" EntitySet="ArticlesAndResearches" />
           </AssociationSet>
-          <AssociationSet Name="FK__AwardsAnd__Appli__6754599E" Association="Self.FK__AwardsAnd__Appli__6754599E">
+          <AssociationSet Name="FK__AwardsAnd__Appli__60A75C0F" Association="Self.FK__AwardsAnd__Appli__60A75C0F">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="AwardsAndRecognitions" EntitySet="AwardsAndRecognitions" />
           </AssociationSet>
-          <AssociationSet Name="FK__AwardsAnd__Schoo__693CA210" Association="Self.FK__AwardsAnd__Schoo__693CA210">
+          <AssociationSet Name="FK__AwardsAnd__Schoo__619B8048" Association="Self.FK__AwardsAnd__Schoo__619B8048">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="AwardsAndRecognitions" EntitySet="AwardsAndRecognitions" />
           </AssociationSet>
-          <AssociationSet Name="FK__AwardsAnd__Unive__68487DD7" Association="Self.FK__AwardsAnd__Unive__68487DD7">
+          <AssociationSet Name="FK__AwardsAnd__Unive__628FA481" Association="Self.FK__AwardsAnd__Unive__628FA481">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="AwardsAndRecognitions" EntitySet="AwardsAndRecognitions" />
           </AssociationSet>
-          <AssociationSet Name="FK__LanguageP__Appli__72C60C4A" Association="Self.FK__LanguageP__Appli__72C60C4A">
+          <AssociationSet Name="FK__LanguageP__Appli__6383C8BA" Association="Self.FK__LanguageP__Appli__6383C8BA">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="LanguageProficiency" EntitySet="LanguageProficiency" />
           </AssociationSet>
-          <AssociationSet Name="FK__LanguageP__Schoo__74AE54BC" Association="Self.FK__LanguageP__Schoo__74AE54BC">
+          <AssociationSet Name="FK__LanguageP__Schoo__6477ECF3" Association="Self.FK__LanguageP__Schoo__6477ECF3">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="LanguageProficiency" EntitySet="LanguageProficiency" />
           </AssociationSet>
-          <AssociationSet Name="FK__LanguageP__Unive__73BA3083" Association="Self.FK__LanguageP__Unive__73BA3083">
+          <AssociationSet Name="FK__LanguageP__Unive__656C112C" Association="Self.FK__LanguageP__Unive__656C112C">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="LanguageProficiency" EntitySet="LanguageProficiency" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDCourse__Schoo__4E88ABD4" Association="Self.FK__PhDCourse__Schoo__4E88ABD4">
+          <AssociationSet Name="FK__PhDCourse__Schoo__66603565" Association="Self.FK__PhDCourse__Schoo__66603565">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="PhDCourses" EntitySet="PhDCourses" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDCourse__Unive__4F7CD00D" Association="Self.FK__PhDCourse__Unive__4F7CD00D">
+          <AssociationSet Name="FK__PhDCourse__Unive__6754599E" Association="Self.FK__PhDCourse__Unive__6754599E">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="PhDCourses" EntitySet="PhDCourses" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDEmploy__Appli__0A9D95DB" Association="Self.FK__PhDEmploy__Appli__0A9D95DB">
+          <AssociationSet Name="FK__PhDEmploy__Appli__68487DD7" Association="Self.FK__PhDEmploy__Appli__68487DD7">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="PhDEmploymentAndResearchDetails" EntitySet="PhDEmploymentAndResearchDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDEmploy__Schoo__0C85DE4D" Association="Self.FK__PhDEmploy__Schoo__0C85DE4D">
+          <AssociationSet Name="FK__PhDEmploy__Schoo__693CA210" Association="Self.FK__PhDEmploy__Schoo__693CA210">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="PhDEmploymentAndResearchDetails" EntitySet="PhDEmploymentAndResearchDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDEmploy__Unive__0B91BA14" Association="Self.FK__PhDEmploy__Unive__0B91BA14">
+          <AssociationSet Name="FK__PhDEmploy__Unive__6A30C649" Association="Self.FK__PhDEmploy__Unive__6A30C649">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="PhDEmploymentAndResearchDetails" EntitySet="PhDEmploymentAndResearchDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDQuesti__Appli__05D8E0BE" Association="Self.FK__PhDQuesti__Appli__05D8E0BE">
+          <AssociationSet Name="FK__PhDQuesti__Appli__6B24EA82" Association="Self.FK__PhDQuesti__Appli__6B24EA82">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="PhDQuestionnaire" EntitySet="PhDQuestionnaire" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDQuesti__Schoo__07C12930" Association="Self.FK__PhDQuesti__Schoo__07C12930">
+          <AssociationSet Name="FK__PhDQuesti__Schoo__6C190EBB" Association="Self.FK__PhDQuesti__Schoo__6C190EBB">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="PhDQuestionnaire" EntitySet="PhDQuestionnaire" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhDQuesti__Unive__06CD04F7" Association="Self.FK__PhDQuesti__Unive__06CD04F7">
+          <AssociationSet Name="FK__PhDQuesti__Unive__6D0D32F4" Association="Self.FK__PhDQuesti__Unive__6D0D32F4">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="PhDQuestionnaire" EntitySet="PhDQuestionnaire" />
           </AssociationSet>
-          <AssociationSet Name="FK__Publicati__Appli__0F624AF8" Association="Self.FK__Publicati__Appli__0F624AF8">
+          <AssociationSet Name="FK__Publicati__Appli__6E01572D" Association="Self.FK__Publicati__Appli__6E01572D">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="Publications" EntitySet="Publications" />
           </AssociationSet>
-          <AssociationSet Name="FK__Publicati__Schoo__114A936A" Association="Self.FK__Publicati__Schoo__114A936A">
+          <AssociationSet Name="FK__Publicati__Schoo__6EF57B66" Association="Self.FK__Publicati__Schoo__6EF57B66">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="Publications" EntitySet="Publications" />
           </AssociationSet>
-          <AssociationSet Name="FK__Publicati__Unive__10566F31" Association="Self.FK__Publicati__Unive__10566F31">
+          <AssociationSet Name="FK__Publicati__Unive__6FE99F9F" Association="Self.FK__Publicati__Unive__6FE99F9F">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="Publications" EntitySet="Publications" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reference__Appli__01142BA1" Association="Self.FK__Reference__Appli__01142BA1">
+          <AssociationSet Name="FK__Reference__Appli__70DDC3D8" Association="Self.FK__Reference__Appli__70DDC3D8">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="Reference" EntitySet="Reference" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reference__Schoo__02FC7413" Association="Self.FK__Reference__Schoo__02FC7413">
+          <AssociationSet Name="FK__Reference__Schoo__71D1E811" Association="Self.FK__Reference__Schoo__71D1E811">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="Reference" EntitySet="Reference" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reference__Unive__02084FDA" Association="Self.FK__Reference__Unive__02084FDA">
+          <AssociationSet Name="FK__Reference__Unive__72C60C4A" Association="Self.FK__Reference__Unive__72C60C4A">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="Reference" EntitySet="Reference" />
           </AssociationSet>
-          <AssociationSet Name="FK__Schools__Univers__4BAC3F29" Association="Self.FK__Schools__Univers__4BAC3F29">
+          <AssociationSet Name="FK__Schools__Univers__73BA3083" Association="Self.FK__Schools__Univers__73BA3083">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="Schools" EntitySet="Schools" />
           </AssociationSet>
-          <AssociationSet Name="FK__SeminarOr__Appli__7C4F7684" Association="Self.FK__SeminarOr__Appli__7C4F7684">
+          <AssociationSet Name="FK__SeminarOr__Appli__74AE54BC" Association="Self.FK__SeminarOr__Appli__74AE54BC">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="SeminarOrConferences" EntitySet="SeminarOrConferences" />
           </AssociationSet>
-          <AssociationSet Name="FK__SeminarOr__Schoo__7E37BEF6" Association="Self.FK__SeminarOr__Schoo__7E37BEF6">
+          <AssociationSet Name="FK__SeminarOr__Schoo__75A278F5" Association="Self.FK__SeminarOr__Schoo__75A278F5">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="SeminarOrConferences" EntitySet="SeminarOrConferences" />
           </AssociationSet>
-          <AssociationSet Name="FK__SeminarOr__Unive__7D439ABD" Association="Self.FK__SeminarOr__Unive__7D439ABD">
+          <AssociationSet Name="FK__SeminarOr__Unive__76969D2E" Association="Self.FK__SeminarOr__Unive__76969D2E">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="SeminarOrConferences" EntitySet="SeminarOrConferences" />
           </AssociationSet>
-          <AssociationSet Name="FK__WorkExper__Appli__6D0D32F4" Association="Self.FK__WorkExper__Appli__6D0D32F4">
+          <AssociationSet Name="FK__WorkExper__Appli__778AC167" Association="Self.FK__WorkExper__Appli__778AC167">
             <End Role="Applicants" EntitySet="Applicants" />
             <End Role="WorkExperience" EntitySet="WorkExperience" />
           </AssociationSet>
-          <AssociationSet Name="FK__WorkExper__Schoo__6EF57B66" Association="Self.FK__WorkExper__Schoo__6EF57B66">
+          <AssociationSet Name="FK__WorkExper__Schoo__787EE5A0" Association="Self.FK__WorkExper__Schoo__787EE5A0">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="WorkExperience" EntitySet="WorkExperience" />
           </AssociationSet>
-          <AssociationSet Name="FK__WorkExper__Unive__6E01572D" Association="Self.FK__WorkExper__Unive__6E01572D">
+          <AssociationSet Name="FK__WorkExper__Unive__797309D9" Association="Self.FK__WorkExper__Unive__797309D9">
             <End Role="Universities" EntitySet="Universities" />
             <End Role="WorkExperience" EntitySet="WorkExperience" />
           </AssociationSet>
           <AssociationSet Name="FK_Applicant_SchoolID" Association="Self.FK_Applicant_SchoolID">
             <End Role="Schools" EntitySet="Schools" />
             <End Role="Applicants" EntitySet="Applicants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Applicants" Association="Self.FK_Users_Applicants">
+            <End Role="Applicants" EntitySet="Applicants" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -971,6 +1101,7 @@
           <NavigationProperty Name="Publications" Relationship="PHDModel.FK__Publicati__Schoo__114A936A" FromRole="School" ToRole="Publication" />
           <NavigationProperty Name="Applicants" Relationship="PHDModel.FK__Applicant__Schoo__534D60F1" FromRole="School" ToRole="Applicant" />
           <NavigationProperty Name="PhDQuestionnaires" Relationship="PHDModel.FK__PhDQuesti__Schoo__07C12930" FromRole="School" ToRole="PhDQuestionnaire" />
+          <Property Name="Steps" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="University">
           <Key>
@@ -999,6 +1130,7 @@
           <NavigationProperty Name="Publications" Relationship="PHDModel.FK__Publicati__Unive__10566F31" FromRole="University" ToRole="Publication" />
           <NavigationProperty Name="Applicants" Relationship="PHDModel.FK__Applicant__Unive__52593CB8" FromRole="University" ToRole="Applicant" />
           <NavigationProperty Name="PhDQuestionnaires" Relationship="PHDModel.FK__PhDQuesti__Unive__06CD04F7" FromRole="University" ToRole="PhDQuestionnaire" />
+          <Property Name="Steps" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__PhDCourse__Schoo__4E88ABD4">
           <End Role="Schools" Type="Self.School" Multiplicity="0..1" />
@@ -1213,6 +1345,18 @@
             <End Role="University" EntitySet="Universities" />
             <End Role="PhDQuestionnaire" EntitySet="PhDQuestionnaires" />
           </AssociationSet>
+          <EntitySet Name="PaymentReports" EntityType="PHDModel.PaymentReport" />
+          <EntitySet Name="ApplicationsReports" EntityType="PHDModel.ApplicationsReport" />
+          <AssociationSet Name="FK__Applicati__Appli__3A4CA8FD" Association="PHDModel.FK__Applicati__Appli__3A4CA8FD">
+            <End Role="Applicant" EntitySet="Applicants" />
+            <End Role="ApplicationsReport" EntitySet="ApplicationsReports" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="PHDModel.User" />
+          <AssociationSet Name="FK_Users_Applicants" Association="PHDModel.FK_Users_Applicants">
+            <End Role="Applicant" EntitySet="Applicants" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Admins" EntityType="PHDModel.Admin" />
         </EntityContainer>
         <EntityType Name="AdditionalPhDDetail">
           <Key>
@@ -1241,6 +1385,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__Additiona__Schoo__5BE2A6F2" FromRole="AdditionalPhDDetail" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__Additiona__Unive__5AEE82B9" FromRole="AdditionalPhDDetail" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__Additiona__Appli__59FA5E80" FromRole="AdditionalPhDDetail" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ApplicantBackgroundDetail">
           <Key>
@@ -1264,6 +1409,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__Applicant__Schoo__60A75C0F" FromRole="ApplicantBackgroundDetail" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__Applicant__Unive__5FB337D6" FromRole="ApplicantBackgroundDetail" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__Applicant__Appli__5EBF139D" FromRole="ApplicantBackgroundDetail" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ArticlesAndResearch">
           <Key>
@@ -1279,6 +1425,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__ArticlesA__Schoo__797309D9" FromRole="ArticlesAndResearch" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__ArticlesA__Unive__787EE5A0" FromRole="ArticlesAndResearch" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__ArticlesA__Appli__778AC167" FromRole="ArticlesAndResearch" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="AwardsAndRecognition">
           <Key>
@@ -1294,6 +1441,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__AwardsAnd__Schoo__693CA210" FromRole="AwardsAndRecognition" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__AwardsAnd__Unive__68487DD7" FromRole="AwardsAndRecognition" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__AwardsAnd__Appli__6754599E" FromRole="AwardsAndRecognition" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="LanguageProficiency">
           <Key>
@@ -1312,6 +1460,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__LanguageP__Schoo__74AE54BC" FromRole="LanguageProficiency" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__LanguageP__Unive__73BA3083" FromRole="LanguageProficiency" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__LanguageP__Appli__72C60C4A" FromRole="LanguageProficiency" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="PhDEmploymentAndResearchDetail">
           <Key>
@@ -1331,6 +1480,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__PhDEmploy__Schoo__0C85DE4D" FromRole="PhDEmploymentAndResearchDetail" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__PhDEmploy__Unive__0B91BA14" FromRole="PhDEmploymentAndResearchDetail" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__PhDEmploy__Appli__0A9D95DB" FromRole="PhDEmploymentAndResearchDetail" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Reference">
           <Key>
@@ -1352,6 +1502,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__Reference__Schoo__02FC7413" FromRole="Reference" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__Reference__Unive__02084FDA" FromRole="Reference" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__Reference__Appli__01142BA1" FromRole="Reference" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="SeminarOrConference">
           <Key>
@@ -1367,6 +1518,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__SeminarOr__Schoo__7E37BEF6" FromRole="SeminarOrConference" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__SeminarOr__Unive__7D439ABD" FromRole="SeminarOrConference" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__SeminarOr__Appli__7C4F7684" FromRole="SeminarOrConference" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="WorkExperience">
           <Key>
@@ -1386,6 +1538,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__WorkExper__Schoo__6EF57B66" FromRole="WorkExperience" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__WorkExper__Unive__6E01572D" FromRole="WorkExperience" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__WorkExper__Appli__6D0D32F4" FromRole="WorkExperience" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__Additiona__Schoo__5BE2A6F2">
           <End Type="PHDModel.School" Role="School" Multiplicity="0..1" />
@@ -1621,6 +1774,7 @@
           <NavigationProperty Name="School" Relationship="PHDModel.FK__Publicati__Schoo__114A936A" FromRole="Publication" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__Publicati__Unive__10566F31" FromRole="Publication" ToRole="University" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__Publicati__Appli__0F624AF8" FromRole="Publication" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__Publicati__Schoo__114A936A">
           <End Type="PHDModel.School" Role="School" Multiplicity="0..1" />
@@ -1689,6 +1843,13 @@
           <NavigationProperty Name="WorkExperiences" Relationship="PHDModel.FK__WorkExper__Appli__6D0D32F4" FromRole="Applicant" ToRole="WorkExperience" />
           <NavigationProperty Name="ApplicantAcademicRecords" Relationship="PHDModel.FK__Applicant__Appli__571DF1D5" FromRole="Applicant" ToRole="ApplicantAcademicRecord" />
           <NavigationProperty Name="PhDQuestionnaires" Relationship="PHDModel.FK__PhDQuesti__Appli__05D8E0BE" FromRole="Applicant" ToRole="PhDQuestionnaire" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
+          <Property Name="ApplicationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionDate" Type="DateTime" Precision="3" />
+          <Property Name="TransactionCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicationsReports" Relationship="PHDModel.FK__Applicati__Appli__3A4CA8FD" FromRole="Applicant" ToRole="ApplicationsReport" />
+          <NavigationProperty Name="Users" Relationship="PHDModel.FK_Users_Applicants" FromRole="Applicant" ToRole="User" />
         </EntityType>
         <Association Name="FK__Additiona__Appli__59FA5E80">
           <End Type="PHDModel.Applicant" Role="Applicant" Multiplicity="0..1" />
@@ -1863,6 +2024,7 @@
           <Property Name="YearOfPassing" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="PercentageOrCGPA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__Applicant__Appli__571DF1D5" FromRole="ApplicantAcademicRecord" ToRole="Applicant" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__Applicant__Appli__571DF1D5">
           <End Type="PHDModel.Applicant" Role="Applicant" Multiplicity="0..1" />
@@ -1892,6 +2054,7 @@
           <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__PhDQuesti__Appli__05D8E0BE" FromRole="PhDQuestionnaire" ToRole="Applicant" />
           <NavigationProperty Name="School" Relationship="PHDModel.FK__PhDQuesti__Schoo__07C12930" FromRole="PhDQuestionnaire" ToRole="School" />
           <NavigationProperty Name="University" Relationship="PHDModel.FK__PhDQuesti__Unive__06CD04F7" FromRole="PhDQuestionnaire" ToRole="University" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__PhDQuesti__Appli__05D8E0BE">
           <End Type="PHDModel.Applicant" Role="Applicant" Multiplicity="1" />
@@ -1929,6 +2092,107 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PaymentReport">
+          <Key>
+            <PropertyRef Name="PaymentReportID" />
+          </Key>
+          <Property Name="PaymentReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TransactionCategory" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisteredDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Program" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProgramType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SchoolID" Type="Int32" />
+          <Property Name="UniversityID" Type="Int32" />
+          <Property Name="ApplicantID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ApplicationsReport">
+          <Key>
+            <PropertyRef Name="ApplicantReportID" />
+          </Key>
+          <Property Name="ApplicantReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicantID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PersonalDetails" Type="Boolean" />
+          <Property Name="PersonalDetailsDate" Type="DateTime" Precision="3" />
+          <Property Name="AcademicDetails" Type="Boolean" />
+          <Property Name="AcademicDetailsDate" Type="DateTime" Precision="3" />
+          <Property Name="LastAttended" Type="Boolean" />
+          <Property Name="LastAttendedDate" Type="DateTime" Precision="3" />
+          <Property Name="WorkExperienceAwards" Type="Boolean" />
+          <Property Name="WorkExperienceAwardsDate" Type="DateTime" Precision="3" />
+          <Property Name="ArticlesReferences" Type="Boolean" />
+          <Property Name="ArticlesReferencesDate" Type="DateTime" Precision="3" />
+          <Property Name="PublicationsExperiencesReferences" Type="Boolean" />
+          <Property Name="PublicationsExperiencesReferencesDate" Type="DateTime" Precision="3" />
+          <Property Name="EmploymentResearch" Type="Boolean" />
+          <Property Name="EmploymentResearchDate" Type="DateTime" Precision="3" />
+          <Property Name="Questionnaire" Type="Boolean" />
+          <Property Name="QuestionnaireDate" Type="DateTime" Precision="3" />
+          <Property Name="FinalSubmission" Type="Boolean" />
+          <Property Name="FinalSubmissionDate" Type="DateTime" Precision="3" />
+          <Property Name="InsertedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Applicant" Relationship="PHDModel.FK__Applicati__Appli__3A4CA8FD" FromRole="ApplicationsReport" ToRole="Applicant" />
+          <Property Name="UniversityID" Type="Int32" />
+          <Property Name="SchoolID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__Applicati__Appli__3A4CA8FD">
+          <End Type="PHDModel.Applicant" Role="Applicant" Multiplicity="1" />
+          <End Type="PHDModel.ApplicationsReport" Role="ApplicationsReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="ApplicationsReport">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicantID" Type="Int32" Nullable="false" />
+          <Property Name="EmailID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UniversityID" Type="Int32" Nullable="false" />
+          <Property Name="SchoolID" Type="Int32" />
+          <Property Name="VisibleSteps" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentStep" Type="Int32" />
+          <Property Name="InsertedDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Applicant" Relationship="PHDModel.FK_Users_Applicants" FromRole="User" ToRole="Applicant" />
+          <Property Name="AdminID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Users_Applicants">
+          <End Type="PHDModel.Applicant" Role="Applicant" Multiplicity="1" />
+          <End Type="PHDModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailID" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UniversityID" Type="Int32" />
+          <Property Name="SchoolID" Type="Int32" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1950,6 +2214,7 @@
           <EntitySetMapping Name="Schools">
             <EntityTypeMapping TypeName="PHDModel.School">
               <MappingFragment StoreEntitySet="Schools">
+                <ScalarProperty Name="Steps" ColumnName="Steps" />
                 <ScalarProperty Name="AllowsPartTime" ColumnName="AllowsPartTime" />
                 <ScalarProperty Name="AllowsFullTime" ColumnName="AllowsFullTime" />
                 <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
@@ -1966,6 +2231,7 @@
           <EntitySetMapping Name="Universities">
             <EntityTypeMapping TypeName="PHDModel.University">
               <MappingFragment StoreEntitySet="Universities">
+                <ScalarProperty Name="Steps" ColumnName="Steps" />
                 <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
                 <ScalarProperty Name="AllowsFullTime" ColumnName="AllowsFullTime" />
@@ -1981,6 +2247,7 @@
           <EntitySetMapping Name="AdditionalPhDDetails">
             <EntityTypeMapping TypeName="PHDModel.AdditionalPhDDetail">
               <MappingFragment StoreEntitySet="AdditionalPhDDetails">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="ReasonForPursuing" ColumnName="ReasonForPursuing" />
                 <ScalarProperty Name="DateOfEnrollmentAsAdvocate" ColumnName="DateOfEnrollmentAsAdvocate" />
                 <ScalarProperty Name="Experience" ColumnName="Experience" />
@@ -2007,6 +2274,7 @@
           <EntitySetMapping Name="ApplicantBackgroundDetails">
             <EntityTypeMapping TypeName="PHDModel.ApplicantBackgroundDetail">
               <MappingFragment StoreEntitySet="ApplicantBackgroundDetails">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="ImageCode" ColumnName="ImageCode" />
                 <ScalarProperty Name="FatherContactNumber" ColumnName="FatherContactNumber" />
                 <ScalarProperty Name="FatherAnnualIncome" ColumnName="FatherAnnualIncome" />
@@ -2028,6 +2296,7 @@
           <EntitySetMapping Name="ArticlesAndResearches">
             <EntityTypeMapping TypeName="PHDModel.ArticlesAndResearch">
               <MappingFragment StoreEntitySet="ArticlesAndResearches">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="PublishedDate" ColumnName="PublishedDate" />
                 <ScalarProperty Name="JournalOrMagazine" ColumnName="JournalOrMagazine" />
                 <ScalarProperty Name="TitleOfArticle" ColumnName="TitleOfArticle" />
@@ -2041,6 +2310,7 @@
           <EntitySetMapping Name="AwardsAndRecognitions">
             <EntityTypeMapping TypeName="PHDModel.AwardsAndRecognition">
               <MappingFragment StoreEntitySet="AwardsAndRecognitions">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="Basis" ColumnName="Basis" />
                 <ScalarProperty Name="AwardYear" ColumnName="AwardYear" />
                 <ScalarProperty Name="AwardTitle" ColumnName="AwardTitle" />
@@ -2054,6 +2324,7 @@
           <EntitySetMapping Name="LanguageProficiencies">
             <EntityTypeMapping TypeName="PHDModel.LanguageProficiency">
               <MappingFragment StoreEntitySet="LanguageProficiency">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="LegalCases" ColumnName="LegalCases" />
                 <ScalarProperty Name="HealthIssue" ColumnName="HealthIssue" />
                 <ScalarProperty Name="CanSpeak" ColumnName="CanSpeak" />
@@ -2070,6 +2341,7 @@
           <EntitySetMapping Name="PhDEmploymentAndResearchDetails">
             <EntityTypeMapping TypeName="PHDModel.PhDEmploymentAndResearchDetail">
               <MappingFragment StoreEntitySet="PhDEmploymentAndResearchDetails">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="ResearchProblemStatement" ColumnName="ResearchProblemStatement" />
                 <ScalarProperty Name="ResearchArea" ColumnName="ResearchArea" />
                 <ScalarProperty Name="HasEmployerPermission" ColumnName="HasEmployerPermission" />
@@ -2087,6 +2359,7 @@
           <EntitySetMapping Name="References">
             <EntityTypeMapping TypeName="PHDModel.Reference">
               <MappingFragment StoreEntitySet="Reference">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="PinCode" ColumnName="PinCode" />
@@ -2106,6 +2379,7 @@
           <EntitySetMapping Name="SeminarOrConferences">
             <EntityTypeMapping TypeName="PHDModel.SeminarOrConference">
               <MappingFragment StoreEntitySet="SeminarOrConferences">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="SeminarDate" ColumnName="SeminarDate" />
                 <ScalarProperty Name="OrganizedBy" ColumnName="OrganizedBy" />
                 <ScalarProperty Name="Topic" ColumnName="Topic" />
@@ -2119,6 +2393,7 @@
           <EntitySetMapping Name="WorkExperiences">
             <EntityTypeMapping TypeName="PHDModel.WorkExperience">
               <MappingFragment StoreEntitySet="WorkExperience">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="AreaOfWork" ColumnName="AreaOfWork" />
                 <ScalarProperty Name="Designation" ColumnName="Designation" />
                 <ScalarProperty Name="NoOfYears" ColumnName="NoOfYears" />
@@ -2136,6 +2411,7 @@
           <EntitySetMapping Name="Publications">
             <EntityTypeMapping TypeName="PHDModel.Publication">
               <MappingFragment StoreEntitySet="Publications">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="PageFromTo" ColumnName="PageFromTo" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="VolumeNo" ColumnName="VolumeNo" />
@@ -2153,6 +2429,11 @@
           <EntitySetMapping Name="Applicants">
             <EntityTypeMapping TypeName="PHDModel.Applicant">
               <MappingFragment StoreEntitySet="Applicants">
+                <ScalarProperty Name="TransactionCategory" ColumnName="TransactionCategory" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="ApplicationNo" ColumnName="ApplicationNo" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="SignaturePath" ColumnName="SignaturePath" />
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
                 <ScalarProperty Name="Pincode" ColumnName="Pincode" />
@@ -2183,6 +2464,7 @@
           <EntitySetMapping Name="ApplicantAcademicRecords">
             <EntityTypeMapping TypeName="PHDModel.ApplicantAcademicRecord">
               <MappingFragment StoreEntitySet="ApplicantAcademicRecords">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="PercentageOrCGPA" ColumnName="PercentageOrCGPA" />
                 <ScalarProperty Name="YearOfPassing" ColumnName="YearOfPassing" />
                 <ScalarProperty Name="MonthOfPassing" ColumnName="MonthOfPassing" />
@@ -2201,6 +2483,7 @@
           <EntitySetMapping Name="PhDQuestionnaires">
             <EntityTypeMapping TypeName="PHDModel.PhDQuestionnaire">
               <MappingFragment StoreEntitySet="PhDQuestionnaire">
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
                 <ScalarProperty Name="IntendedResearchArea" ColumnName="IntendedResearchArea" />
                 <ScalarProperty Name="KnowAnyoneInICFAI" ColumnName="KnowAnyoneInICFAI" />
                 <ScalarProperty Name="ReasonForJoining" ColumnName="ReasonForJoining" />
@@ -2210,6 +2493,85 @@
                 <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
                 <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
                 <ScalarProperty Name="QuestionnaireID" ColumnName="QuestionnaireID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentReports">
+            <EntityTypeMapping TypeName="PHDModel.PaymentReport">
+              <MappingFragment StoreEntitySet="PaymentReport">
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="ProgramType" ColumnName="ProgramType" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="RegisteredDate" ColumnName="RegisteredDate" />
+                <ScalarProperty Name="TransactionCategory" ColumnName="TransactionCategory" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="ApplicationNo" ColumnName="ApplicationNo" />
+                <ScalarProperty Name="PaymentReportID" ColumnName="PaymentReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationsReports">
+            <EntityTypeMapping TypeName="PHDModel.ApplicationsReport">
+              <MappingFragment StoreEntitySet="ApplicationsReports">
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+                <ScalarProperty Name="FinalSubmissionDate" ColumnName="FinalSubmissionDate" />
+                <ScalarProperty Name="FinalSubmission" ColumnName="FinalSubmission" />
+                <ScalarProperty Name="QuestionnaireDate" ColumnName="QuestionnaireDate" />
+                <ScalarProperty Name="Questionnaire" ColumnName="Questionnaire" />
+                <ScalarProperty Name="EmploymentResearchDate" ColumnName="EmploymentResearchDate" />
+                <ScalarProperty Name="EmploymentResearch" ColumnName="EmploymentResearch" />
+                <ScalarProperty Name="PublicationsExperiencesReferencesDate" ColumnName="PublicationsExperiencesReferencesDate" />
+                <ScalarProperty Name="PublicationsExperiencesReferences" ColumnName="PublicationsExperiencesReferences" />
+                <ScalarProperty Name="ArticlesReferencesDate" ColumnName="ArticlesReferencesDate" />
+                <ScalarProperty Name="ArticlesReferences" ColumnName="ArticlesReferences" />
+                <ScalarProperty Name="WorkExperienceAwardsDate" ColumnName="WorkExperienceAwardsDate" />
+                <ScalarProperty Name="WorkExperienceAwards" ColumnName="WorkExperienceAwards" />
+                <ScalarProperty Name="LastAttendedDate" ColumnName="LastAttendedDate" />
+                <ScalarProperty Name="LastAttended" ColumnName="LastAttended" />
+                <ScalarProperty Name="AcademicDetailsDate" ColumnName="AcademicDetailsDate" />
+                <ScalarProperty Name="AcademicDetails" ColumnName="AcademicDetails" />
+                <ScalarProperty Name="PersonalDetailsDate" ColumnName="PersonalDetailsDate" />
+                <ScalarProperty Name="PersonalDetails" ColumnName="PersonalDetails" />
+                <ScalarProperty Name="ApplicationNumber" ColumnName="ApplicationNumber" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+                <ScalarProperty Name="ApplicantReportID" ColumnName="ApplicantReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PHDModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="InsertedDate" ColumnName="InsertedDate" />
+                <ScalarProperty Name="CurrentStep" ColumnName="CurrentStep" />
+                <ScalarProperty Name="VisibleSteps" ColumnName="VisibleSteps" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="PHDModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="UniversityID" ColumnName="UniversityID" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

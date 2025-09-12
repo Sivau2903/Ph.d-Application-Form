@@ -1,0 +1,84 @@
+﻿@model List<Ph.d_Application_Form.Models.ApplicationsReport>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Admin Dashboard";
+}
+<style>
+    .mt-4 {
+        margin-top: 0.5rem !important;
+    }
+    .table {
+        margin-top: 25px;
+    }
+   
+</style>
+
+@*<h1>Welcome to Admin Dashboard of Ph.D Application</h1>
+<p>Manage all applicants and reports from here.</p>*@
+
+<h3 class="mt-4">Applicants Report</h3>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Application Number</th>
+            @foreach (var step in ViewBag.EnabledSteps)
+            {
+                if (ViewBag.StepNames.ContainsKey(step))
+                {
+                    <th>@ViewBag.StepNames[step]</th>
+                    <th>@ViewBag.StepNames[step] Date</th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model)
+        {
+            <tr>
+                <td>@report.ApplicationNumber</td>
+                @foreach (var step in ViewBag.EnabledSteps)
+                {
+                    switch (step)
+                    {
+                        case 1:
+                            <td>@(report.PersonalDetails.HasValue ? (report.PersonalDetails.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.PersonalDetailsDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 2:
+                            <td>@(report.AcademicDetails.HasValue ? (report.AcademicDetails.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.AcademicDetailsDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 3:
+                            <td>@(report.LastAttended.HasValue ? (report.LastAttended.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.LastAttendedDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 4:
+                            <td>@(report.WorkExperienceAwards.HasValue ? (report.WorkExperienceAwards.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.WorkExperienceAwardsDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 5:
+                            <td>@(report.ArticlesReferences.HasValue ? (report.ArticlesReferences.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.ArticlesReferencesDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 6:
+                            <td>@(report.PublicationsExperiencesReferences.HasValue ? (report.PublicationsExperiencesReferences.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.PublicationsExperiencesReferencesDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 7:
+                            <td>@(report.EmploymentResearch.HasValue ? (report.EmploymentResearch.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.EmploymentResearchDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 8:
+                            <td>@(report.Questionnaire.HasValue ? (report.Questionnaire.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.QuestionnaireDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                        case 9:
+                            <td>@(report.FinalSubmission.HasValue ? (report.FinalSubmission.Value ? "Yes" : "No") : "-")</td>
+                            <td>@(report.FinalSubmissionDate?.ToString("dd-MM-yyyy") ?? "-")</td>
+                            break;
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

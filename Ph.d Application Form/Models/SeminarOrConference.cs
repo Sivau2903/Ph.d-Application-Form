@@ -21,6 +21,7 @@ namespace Ph.d_Application_Form.Models
         public string Topic { get; set; }
         public string OrganizedBy { get; set; }
         public Nullable<System.DateTime> SeminarDate { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

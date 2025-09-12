@@ -12,7 +12,7 @@ namespace Ph.d_Application_Form.Models
         public School School { get; set; }
         public Applicant Appli { get; set; } = new Applicant();
         public ApplicantBackgroundDetail Back { get; set; } = new ApplicantBackgroundDetail();
-        public AdditionalPhDDetail Applicant { get; set; } = new AdditionalPhDDetail();
+        //public AdditionalPhDDetail Applicant { get; set; } = new AdditionalPhDDetail();
         public List<ApplicantAcademicRecord> AcademicRecords { get; set; } = new List<ApplicantAcademicRecord>();
 
         public AdditionalPhDDetail additional { get; set; } = new AdditionalPhDDetail();
@@ -27,6 +27,8 @@ namespace Ph.d_Application_Form.Models
         public List<Reference> References { get; set; } = new List<Reference>();
         public List<SeminarOrConference> Seminars { get; set; } = new List<SeminarOrConference>();
         public List<WorkExperience> WorkExperience { get; set; } = new List<WorkExperience>();
+        // ✅ Include Dashboard data
+      
 
         // Fixed the placement of the 'public' modifier  
         public string GenerateCaptcha()

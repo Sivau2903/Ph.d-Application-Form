@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f56295f9146f4b83a6e58e595751de3b" Name="Diagram1" ZoomLevel="53">
+      <Diagram DiagramId="f56295f9146f4b83a6e58e595751de3b" Name="Diagram1" ZoomLevel="79">
         <EntityTypeShape EntityType="PHDModel.PhDCours" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PHDModel.School" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="PHDModel.University" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
@@ -61,6 +61,12 @@
         <AssociationConnector Association="PHDModel.FK__PhDQuesti__Appli__05D8E0BE" />
         <AssociationConnector Association="PHDModel.FK__PhDQuesti__Schoo__07C12930" />
         <AssociationConnector Association="PHDModel.FK__PhDQuesti__Unive__06CD04F7" />
+        <EntityTypeShape EntityType="PHDModel.PaymentReport" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="PHDModel.ApplicationsReport" Width="1.5" PointX="9.75" PointY="20.875" />
+        <AssociationConnector Association="PHDModel.FK__Applicati__Appli__3A4CA8FD" />
+        <EntityTypeShape EntityType="PHDModel.User" Width="1.5" PointX="9.75" PointY="27.875" />
+        <AssociationConnector Association="PHDModel.FK_Users_Applicants" />
+        <EntityTypeShape EntityType="PHDModel.Admin" Width="1.5" PointX="0.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

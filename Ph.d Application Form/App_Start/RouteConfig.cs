@@ -16,7 +16,7 @@ namespace Ph.d_Application_Form
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Form", action = "Login", id = UrlParameter.Optional }
             );
         }
     }

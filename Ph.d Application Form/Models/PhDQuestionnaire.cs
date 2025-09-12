@@ -23,6 +23,7 @@ namespace Ph.d_Application_Form.Models
         public string ReasonForJoining { get; set; }
         public Nullable<bool> KnowAnyoneInICFAI { get; set; }
         public string IntendedResearchArea { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual Applicant Applicant { get; set; }
         public virtual School School { get; set; }

@@ -29,6 +29,7 @@ namespace Ph.d_Application_Form.Models
         public Nullable<decimal> FatherAnnualIncome { get; set; }
         public string FatherContactNumber { get; set; }
         public string ImageCode { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

@@ -234,1532 +234,1558 @@
     }
 
 
-    <div id="multiStepForm" class="container mt-4">
+<div id="multiStepForm" class="container mt-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="d-flex ms-auto">
+                @if ( ViewBag.CurrentStep != 1)
+                {
+                    <a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Form")" style="position: absolute; top: 10px; right: 20px;">
+                        Logout
+                    </a>
+                }
+            </div>
+        </div>
+    </nav>
 
-        @* Step-wise content rendering *@
 
-        @if (ViewBag.CurrentStep == 1)
+
+
+
+    @* Step-wise content rendering *@
+
+    @if (ViewBag.CurrentStep == 1)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "stepForm" }))
         {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "stepForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
 
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
 
-                @*@Html.HiddenFor(model => model.Appli.CourseID)
-                    @Html.HiddenFor(model => model.Appli.ProgramMode)*@
+            @*@Html.HiddenFor(model => model.Appli.CourseID)
+                @Html.HiddenFor(model => model.Appli.ProgramMode)*@
 
-                <div class="form-step" id="step-1">
+            <div class="form-step" id="step-1">
+                <div class="d-flex justify-content-end mb-2">
+                    <span class="text-primary font-weight-bold" style="font-size:16px;">
+                        Next time Login =>
+                        UserID = Email
+                        & Password = DOB
+                    </span>
+                </div>
 
-                    <h3 class="mb-3">Course Selection</h3>
 
-                    @if (Model.School != null)
+                <h3 class="mb-3">Course Selection</h3>
+
+                @if (Model.School != null)
+                {
+                    if (Model.School.AllowsFullTime.GetValueOrDefault() && Model.School.AllowsPartTime.GetValueOrDefault())
+
                     {
-                        if (Model.School.AllowsFullTime.GetValueOrDefault() && Model.School.AllowsPartTime.GetValueOrDefault())
-
-                        {
-                            // Both modes - show dropdown
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label>Program Mode</label>
-                                    @Html.DropDownListFor(m => m.Appli.ProgramMode, new SelectList(new[] { "Full Time", "Part Time" }), "Select Mode", new { @class = "form-control" })
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Course</label>
-                                    @Html.DropDownListFor(m => m.Appli.CourseID,
-            new SelectList(Model.School.PhDCourses, "CourseID", "CourseName"),
-            "Select Course", new { @class = "form-control" })
-                                </div>
+                        // Both modes - show dropdown
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label>Program Mode</label>
+                                @Html.DropDownListFor(m => m.Appli.ProgramMode, new SelectList(new[] { "Full Time", "Part Time" }), "Select Mode", new { @class = "form-control", required = "required" })
                             </div>
-                        }
-                        else
-                        {
-                            // Only one mode - no dropdown, preselect mode
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label>Course</label>
-                                    @Html.DropDownListFor(m => m.Appli.CourseID,
-            new SelectList(Model.School.PhDCourses, "CourseID", "CourseName"),
-            "Select Course", new { @class = "form-control" })
-                                    @Html.HiddenFor(m => m.Appli.ProgramMode, new { @Value = Model.School.AllowsFullTime.GetValueOrDefault() ? "Full Time" : "Part Time" })
-
-                                </div>
+                            <div class="col-md-6">
+                                <label>Course</label>
+                                @Html.DropDownListFor(m => m.Appli.CourseID,
+        new SelectList(Model.School.PhDCourses, "CourseID", "CourseName"),
+        "Select Course", new { @class = "form-control", required = "required" })
                             </div>
-                        }
+                        </div>
                     }
                     else
                     {
-                        // No school selected → fallback to University
-                        if (Model.University.AllowsFullTime && Model.University.AllowsPartTime)
-                        {
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label>Program Mode</label>
-                                    @Html.DropDownListFor(m => m.Appli.ProgramMode, new SelectList(new[] { "Full Time", "Part Time" }), "Select Mode", new { @class = "form-control" })
-                                </div>
-                                <div class="col-md-6">
-                                    <label>Course</label>
-                                    @Html.DropDownListFor(m => m.Appli.CourseID,
+                        // Only one mode - no dropdown, preselect mode
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label>Course</label>
+                                @Html.DropDownListFor(m => m.Appli.CourseID,
+        new SelectList(Model.School.PhDCourses, "CourseID", "CourseName"),
+        "Select Course", new { @class = "form-control", required = "required" })
+                                @Html.HiddenFor(m => m.Appli.ProgramMode, new { @Value = Model.School.AllowsFullTime.GetValueOrDefault() ? "Full Time" : "Part Time" })
 
-            new SelectList(Model.University.PhDCourses, "CourseID", "CourseName"),
-            "Select Course", new { @class = "form-control" })
-                                </div>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label>Course</label>
-                                    @Html.DropDownListFor(m => m.Appli.CourseID,
-            new SelectList(Model.University.PhDCourses, "CourseID", "CourseName"),
-            "Select Course", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.Appli.CourseID, "", new { @class = "text-danger" })
-                                    @Html.HiddenFor(m => m.Appli.ProgramMode, new { @Value = Model.University.AllowsFullTime ? "Full Time" : "Part Time" })
-                                </div>
-                            </div>
-                        }
+                        </div>
                     }
+                }
+                else
+                {
+                    // No school selected → fallback to University
+                    if (Model.University.AllowsFullTime && Model.University.AllowsPartTime)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label>Program Mode</label>
+                                @Html.DropDownListFor(m => m.Appli.ProgramMode, new SelectList(new[] { "Full Time", "Part Time" }), "Select Mode", new { @class = "form-control", required = "required" })
+                            </div>
+                            <div class="col-md-6">
+                                <label>Course</label>
+                                @Html.DropDownListFor(m => m.Appli.CourseID,
 
-                    @*<button type="button" class="btn btn-primary" onclick="nextStep(1)">Save & Continue</button>*@
-                    @*</div>
-                        <div class="form-step" id="step1">*@
-                    <h3 class="mb-3">Personal Details</h3>
+        new SelectList(Model.University.PhDCourses, "CourseID", "CourseName"),
+        "Select Course", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label>Course</label>
+                                @Html.DropDownListFor(m => m.Appli.CourseID,
+        new SelectList(Model.University.PhDCourses, "CourseID", "CourseName"),
+        "Select Course", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Appli.CourseID, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(m => m.Appli.ProgramMode, new { @Value = Model.University.AllowsFullTime ? "Full Time" : "Part Time" })
+                            </div>
+                        </div>
+                    }
+                }
 
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            <label>Prefix</label>
-                            @Html.DropDownListFor(m => m.Appli.Prefix, new SelectList(new[] { "Mr.", "Ms.", "Mrs.", "Dr.", "Prof." }), "Select", new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Appli.Prefix, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.FullName)
-                            @Html.TextBoxFor(m => m.Appli.FullName, new { @class = "form-control", placeholder = "Full Name", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.FullName, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.FatherMotherName)
-                            @Html.TextBoxFor(m => m.Appli.FatherMotherName, new { @class = "form-control", placeholder = "Parent's Name", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.FatherMotherName, "", new { @class = "text-danger" })
-                        </div>
-                        @*<div class="col-md-2">
-                                @Html.LabelFor(m => m.Appli.DateOfBirth)
-                                @Html.TextBox("Appli.DateOfBirth", Model.Appli.DateOfBirth?.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", required = "required" })
+                @*<button type="button" class="btn btn-primary" onclick="nextStep(1)">Save & Continue</button>*@
+                @*</div>
+                    <div class="form-step" id="step1">*@
+                <h3 class="mb-3">Personal Details</h3>
 
-                                @Html.ValidationMessageFor(m => m.Appli.DateOfBirth, "", new { @class = "text-danger" })
-                            </div>*@
-                        <div class="col-md-2">
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label>Prefix</label>
+                        @Html.DropDownListFor(m => m.Appli.Prefix, new SelectList(new[] { "Mr.", "Ms.", "Mrs.", "Dr.", "Prof." }), "Select", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Appli.Prefix, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.FullName)
+                        @Html.TextBoxFor(m => m.Appli.FullName, new { @class = "form-control", placeholder = "Full Name", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.FullName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.FatherMotherName)
+                        @Html.TextBoxFor(m => m.Appli.FatherMotherName, new { @class = "form-control", placeholder = "Parent's Name", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.FatherMotherName, "", new { @class = "text-danger" })
+                    </div>
+                    @*<div class="col-md-2">
                             @Html.LabelFor(m => m.Appli.DateOfBirth)
-                            @Html.TextBoxFor(m => m.Appli.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                            @Html.TextBox("Appli.DateOfBirth", Model.Appli.DateOfBirth?.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", required = "required" })
+
                             @Html.ValidationMessageFor(m => m.Appli.DateOfBirth, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-md-2">
-                            <label>Gender</label>
-                            @Html.DropDownListFor(m => m.Appli.Gender, new SelectList(new[] { "Male", "Female", "Other" }), "Select Gender", new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Appli.Gender, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            <label>Blood Group</label>
-                            @Html.DropDownListFor(m => m.Appli.BloodGroup, new SelectList(new[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-" }), "Select Blood Group", new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Appli.BloodGroup, "", new { @class = "text-danger" })
-                        </div>
+                        </div>*@
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.DateOfBirth)
+                        @Html.TextBoxFor(m => m.Appli.DateOfBirth, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Appli.DateOfBirth, "", new { @class = "text-danger" })
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label>Gender</label>
+                        @Html.DropDownListFor(m => m.Appli.Gender, new SelectList(new[] { "Male", "Female", "Other" }), "Select Gender", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Appli.Gender, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Blood Group</label>
+                        @Html.DropDownListFor(m => m.Appli.BloodGroup, new SelectList(new[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-" }), "Select Blood Group", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Appli.BloodGroup, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                        <div class="col-md-2">
-                            <label>Category</label>
-                            @Html.DropDownListFor(m => m.Appli.Category, new SelectList(new[] { "General", "SC", "ST", "OBC", "EWS" }), "Select Category", new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Appli.Category, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.AadhaarNumber)
-                            @Html.TextBoxFor(m => m.Appli.AadhaarNumber, new { @class = "form-control", placeholder = "Aadhaar Number", required = "required", maxlength = "12", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.AadhaarNumber, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            <label>Upload Photo</label>
-                            <input type="file" name="PhotoFile" accept="image/*" class="form-control" required />
-                            <span class="text-danger">@Html.ValidationMessage("PhotoFile")</span>
-                            @if (!string.IsNullOrEmpty(Model.Appli?.PhotoPath))
-                            {
-                                <img src="@Url.Content(Model.Appli.PhotoPath)" width="120" class="img-thumbnail" />
-                            }
+                <div class="row mb-3">
 
-                        </div>
+                    <div class="col-md-2">
+                        <label>Category</label>
+                        @Html.DropDownListFor(m => m.Appli.Category, new SelectList(new[] { "General", "SC", "ST", "OBC", "EWS" }), "Select Category", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Appli.Category, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.AadhaarNumber)
+                        @Html.TextBoxFor(m => m.Appli.AadhaarNumber, new { @class = "form-control", placeholder = "Aadhaar Number", required = "required", maxlength = "12", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.AadhaarNumber, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Upload Photo</label>
+                        <input type="file" name="PhotoFile" accept="image/*" class="form-control" required />
+                        <span class="text-danger">@Html.ValidationMessage("PhotoFile")</span>
+                        @if (!string.IsNullOrEmpty(Model.Appli?.PhotoPath))
+                        {
+                            <img src="@Url.Content(Model.Appli.PhotoPath)" width="120" class="img-thumbnail" />
+                        }
 
-                        <div class="col-md-2">
-                            <label>Upload Signature</label>
-                            <input type="file" name="SignatureFile" accept="image/*" class="form-control" required />
-                            <span class="text-danger">@Html.ValidationMessage("SignatureFile")</span>
-                            @if (!string.IsNullOrEmpty(Model.Appli?.SignaturePath))
-                            {
-                                <img src="@Url.Content(Model.Appli.SignaturePath)" width="120" class="img-thumbnail" />
-                            }
-
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.ParentEmail)
-                            @Html.TextBoxFor(m => m.Appli.ParentEmail, new { @class = "form-control", placeholder = "Email", required = "required", type = "email" })
-                            @Html.ValidationMessageFor(m => m.Appli.ParentEmail, "", new { @class = "text-danger" })
-                        </div>
                     </div>
 
-                    <h3 class="mb-3">Contact Details</h3>
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.Email)
-                            @Html.TextBoxFor(m => m.Appli.Email, new { @class = "form-control", placeholder = "Email", required = "required", type = "email" })
-                            @Html.ValidationMessageFor(m => m.Appli.Email, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.MobileNumber)
-                            @Html.TextBoxFor(m => m.Appli.MobileNumber, new { @class = "form-control", placeholder = "Mobile Number", required = "required", maxlength = "10", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.MobileNumber, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.AlternateContact)
-                            @Html.TextBoxFor(m => m.Appli.AlternateContact, new { @class = "form-control", placeholder = "Alternate Contact", required = "required", maxlength = "10", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.AlternateContact, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.WhatsAppNumber)
-                            @Html.TextBoxFor(m => m.Appli.WhatsAppNumber, new { @class = "form-control", placeholder = "WhatsApp Number", required = "required", maxlength = "10", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.WhatsAppNumber, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.AddressLine)
-                            @Html.TextBoxFor(m => m.Appli.AddressLine, new { @class = "form-control", placeholder = "Address Line", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Appli.AddressLine, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.City)
-                            @Html.TextBoxFor(m => m.Appli.City, new { @class = "form-control", placeholder = "City", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.City, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-2">
+                        <label>Upload Signature</label>
+                        <input type="file" name="SignatureFile" accept="image/*" class="form-control" required />
+                        <span class="text-danger">@Html.ValidationMessage("SignatureFile")</span>
+                        @if (!string.IsNullOrEmpty(Model.Appli?.SignaturePath))
+                        {
+                            <img src="@Url.Content(Model.Appli.SignaturePath)" width="120" class="img-thumbnail" />
+                        }
+
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.ParentEmail)
+                        @Html.TextBoxFor(m => m.Appli.ParentEmail, new { @class = "form-control", placeholder = "Email", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Appli.ParentEmail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <h3 class="mb-3">Contact Details</h3>
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.Email)
+                        @Html.TextBoxFor(m => m.Appli.Email, new { @class = "form-control", placeholder = "Email", required = "required", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Appli.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.MobileNumber)
+                        @Html.TextBoxFor(m => m.Appli.MobileNumber, new { @class = "form-control", placeholder = "Mobile Number", required = "required", maxlength = "10", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.MobileNumber, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.AlternateContact)
+                        @Html.TextBoxFor(m => m.Appli.AlternateContact, new { @class = "form-control", placeholder = "Alternate Contact", maxlength = "10", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.AlternateContact, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.WhatsAppNumber)
+                        @Html.TextBoxFor(m => m.Appli.WhatsAppNumber, new { @class = "form-control", placeholder = "WhatsApp Number", required = "required", maxlength = "10", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.WhatsAppNumber, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.AddressLine)
+                        @Html.TextBoxFor(m => m.Appli.AddressLine, new { @class = "form-control", placeholder = "Address Line", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Appli.AddressLine, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.City)
+                        @Html.TextBoxFor(m => m.Appli.City, new { @class = "form-control", placeholder = "City", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.State)
+                        @Html.TextBoxFor(m => m.Appli.State, new { @class = "form-control", placeholder = "State", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.State, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Appli.Pincode)
+                        @Html.TextBoxFor(m => m.Appli.Pincode, new { @class = "form-control", placeholder = "Pincode", required = "required", maxlength = "6", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Appli.Pincode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Step 1 never shows Back button *@
                     </div>
 
-                    <div class="row mb-3">
-
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.State)
-                            @Html.TextBoxFor(m => m.Appli.State, new { @class = "form-control", placeholder = "State", required = "required", oninput = "this.value=this.value.replace(/[^a-zA-Z ]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.State, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Appli.Pincode)
-                            @Html.TextBoxFor(m => m.Appli.Pincode, new { @class = "form-control", placeholder = "Pincode", required = "required", maxlength = "6", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Appli.Pincode, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Step 1 never shows Back button *@
-                        </div>
-
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting Step 1: Show only Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting Step 1: Show only Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
                 universityId = Model.University.UniversityID,
                 schoolId = Model.School?.SchoolID,
                 step = ((int)ViewBag.CurrentStep) + 1
             })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting Step 1: Show only Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
-                        </div>
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting Step 1: Show only Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
                     </div>
-
-
-
                 </div>
 
-            }
+
+
+            </div>
+
         }
+    }
 
 
 
-        else if (ViewBag.CurrentStep == 2)
+    else if (ViewBag.CurrentStep == 2)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.HiddenFor(model => model.Appli.ApplicantID)
-                @Html.Hidden("step", 2) <!-- change value depending on current step -->
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.HiddenFor(model => model.Appli.ApplicantID)
+            @Html.Hidden("step", 2) <!-- change value depending on current step -->
 
 
 
-                @*<p>Step: @ViewBag.CurrentStep | Records: @(Model.AcademicRecords?.Count ?? 0)</p>*@
+            @*<p>Step: @ViewBag.CurrentStep | Records: @(Model.AcademicRecords?.Count ?? 0)</p>*@
 
-                <div class="form-step" id="step-2">
+            <div class="form-step" id="step-2">
 
-                    <h3 class="mb-3">Academic Records</h3>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Education Level</th>
-                                    <th>Institute</th>
-                                    @*<th>Board/University</th>*@
-                                    <th>City</th>
-                                    <th>Subjects</th>
-                                    <th>Medium</th>
-                                    <th>DurationYears</th>
-                                    <th>ModeOfStudy</th>
-                                    <th>MonthOfPassing</th>
-                                    <th>Year</th>
-                                    <th>Percentage/CGPA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    string[] levels = new[] { "X", "XII", "Graduation", "PostGraduation", "Others" };
-                                    var academicRecords = Model.AcademicRecords ?? new List<ApplicantAcademicRecord>();
-                                    if (!academicRecords.Any())
-                                    {
-                                        academicRecords.Add(new ApplicantAcademicRecord()); // 👈 Render one empty row
-                                    }
-
-                                }
-
-                                @for (int i = 0; i < levels.Length; i++)
+                <h3 class="mb-3">Academic Records</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Education Level</th>
+                                <th>Institute</th>
+                                @*<th>Board/University</th>*@
+                                <th>City</th>
+                                @*<th>Subjects</th>*@
+                                <th>Medium</th>
+                                <th>DurationYears</th>
+                                <th>ModeOfStudy</th>
+                                <th>MonthOfPassing</th>
+                                <th>Year</th>
+                                <th>Percentage/CGPA</th>
+                            </tr>      
+                        </thead>
+                        <tbody>
+                            @{
+                                string[] levels = new[] { "X", "XII", "Graduation", "PostGraduation", "Others" };
+                                var academicRecords = Model.AcademicRecords ?? new List<ApplicantAcademicRecord>();
+                                if (!academicRecords.Any())
                                 {
-                                    if (Model.AcademicRecords.Count <= i)
-                                    {
-                                        Model.AcademicRecords.Add(new Ph.d_Application_Form.Models.ApplicantAcademicRecord { EducationLevel = levels[i] });
-                                    }
-
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="form-control" value="@levels[i]" readonly />
-                                            @Html.HiddenFor(m => m.AcademicRecords[i].EducationLevel)
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.AcademicRecords[i].InstituteName, new { @class = "form-control", placeholder = "Institute Name" })
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].InstituteName, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.AcademicRecords[i].City, new { @class = "form-control", placeholder = "City" })
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].City, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.AcademicRecords[i].GroupOrMajorSubjects, new { @class = "form-control", placeholder = "Subjects" })
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].GroupOrMajorSubjects, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            <!-- Medium of Instruction -->
-                                            @Html.DropDownListFor(
-                                                m => m.AcademicRecords[i].MediumOfInstruction,
-                                                new SelectList(
-                                                    new[] { "English", "Hindi", "Telugu", "Other" },
-                                                    Model.AcademicRecords[i].MediumOfInstruction
-                                                ),
-                                                "-- Select Medium --",
-                                                new { @class = "form-control" }
-                                            )
-
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].MediumOfInstruction, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            <!-- DurationYears -->
-                                            @Html.DropDownListFor(
-                                                m => m.AcademicRecords[i].DurationYears,
-                                                new SelectList(
-                                                    Enumerable.Range(1, 5).Select(x => new { Value = x, Text = x }),
-                                                    "Value",
-                                                    "Text",
-                                                    Model.AcademicRecords[i].DurationYears
-                                                ),
-                                                "-- Select Duration --",
-                                                new { @class = "form-control" }
-                                            )
-
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].DurationYears, "", new { @class = "text-danger" })
-                                        </td>
-
-                                        <td>
-                                            <!-- Mode of Study -->
-                                            @Html.DropDownListFor(
-                                                m => m.AcademicRecords[i].ModeOfStudy,
-                                                new SelectList(
-                                                    new[] { "Full-Time", "Part-Time", "Distance" },
-                                                    Model.AcademicRecords[i].ModeOfStudy
-                                                ),
-                                                "-- Select Mode --",
-                                                new { @class = "form-control" }
-                                            )
-
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].ModeOfStudy, "", new { @class = "text-danger" })
-                                        </td>
-
-                                        <td>
-                                            <!-- Month of Passing -->
-                                            @Html.DropDownListFor(
-                                                m => m.AcademicRecords[i].MonthOfPassing,
-                                                new SelectList(
-                                                    System.Globalization.DateTimeFormatInfo.InvariantInfo.MonthNames
-                                                    .Where(mn => !string.IsNullOrEmpty(mn)),
-                                                    Model.AcademicRecords[i].MonthOfPassing
-                                                ),
-                                                "-- Select Month --",
-                                                new { @class = "form-control" }
-                                            )
-
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].MonthOfPassing, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            @Html.DropDownListFor(
-                          m => m.AcademicRecords[i].YearOfPassing,
-                          new SelectList(
-                              Enumerable.Range(1980, DateTime.Now.Year - 1979)
-                              .Reverse()
-                              .Select(y => y.ToString()), // Convert to string
-                              Model.AcademicRecords[i].YearOfPassing
-                          ),
-                          "-- Select Year --",
-                          new { @class = "form-control" }
-                      )
-
-
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].YearOfPassing, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            @Html.TextBoxFor(m => m.AcademicRecords[i].PercentageOrCGPA,
-                                                new
-                                                    {
-                                                        @class = "form-control",
-                                                    type = "number",
-                                                    step = "0.01",   // Allows decimals like 85.50
-                                                    min = "0",
-                                                    max = "100",
-                                                    placeholder = "Percentage/CGPA"
-                                                })
-                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].PercentageOrCGPA, "", new { @class = "text-danger" })
-                                        </td>
-
-                                    </tr>
+                                    academicRecords.Add(new ApplicantAcademicRecord()); // 👈 Render one empty row
                                 }
 
+                            }
 
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Back button is always shown for Step 2+ *@
-                            @if (ViewBag.PreviousStep != null)
+                            @for (int i = 0; i < levels.Length; i++)
                             {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                                if (Model.AcademicRecords.Count <= i)
+                                {
+                                    Model.AcademicRecords.Add(new Ph.d_Application_Form.Models.ApplicantAcademicRecord { EducationLevel = levels[i] });
+                                }
+
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control" value="@levels[i]" readonly />
+                                        @Html.HiddenFor(m => m.AcademicRecords[i].EducationLevel)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.AcademicRecords[i].InstituteName, new { @class = "form-control", required = "required", placeholder = "Institute Name" })
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].InstituteName, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.AcademicRecords[i].City, new { @class = "form-control", required = "required", placeholder = "City" })
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].City, "", new { @class = "text-danger" })
+                                    </td>
+                                    @*<td>
+                                            @Html.TextBoxFor(m => m.AcademicRecords[i].GroupOrMajorSubjects, new { @class = "form-control", required = "required", placeholder = "Subjects" })
+                                            @Html.ValidationMessageFor(m => m.AcademicRecords[i].GroupOrMajorSubjects, "", new { @class = "text-danger" })
+                                        </td>*@
+                                    <td>
+                                        <!-- Medium of Instruction -->
+                                        @Html.DropDownListFor(
+                                            m => m.AcademicRecords[i].MediumOfInstruction,
+                                            new SelectList(
+                                                new[] { "English", "Hindi", "Telugu", "Other" },
+                                                Model.AcademicRecords[i].MediumOfInstruction
+                                            ),
+                                            "-- Select Medium --",
+                                            new { @class = "form-control", required = "required", }
+                                        )
+
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].MediumOfInstruction, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        <!-- DurationYears -->
+                                        @Html.DropDownListFor(
+                                            m => m.AcademicRecords[i].DurationYears,
+                                            new SelectList(
+                                                Enumerable.Range(1, 5).Select(x => new { Value = x, Text = x }),
+                                                "Value",
+                                                "Text",
+                                                Model.AcademicRecords[i].DurationYears
+                                            ),
+                                            "-- Select Duration --",
+                                            new { @class = "form-control", required = "required", }
+                                        )
+
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].DurationYears, "", new { @class = "text-danger" })
+                                    </td>
+
+                                    <td>
+                                        <!-- Mode of Study -->
+                                        @Html.DropDownListFor(
+                                            m => m.AcademicRecords[i].ModeOfStudy,
+                                            new SelectList(
+                                                new[] { "Full-Time", "Part-Time", "Distance" },
+                                                Model.AcademicRecords[i].ModeOfStudy
+                                            ),
+                                            "-- Select Mode --",
+                                            new { @class = "form-control", required = "required", }
+                                        )
+
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].ModeOfStudy, "", new { @class = "text-danger" })
+                                    </td>
+
+                                    <td>
+                                        <!-- Month of Passing -->
+                                        @Html.DropDownListFor(
+                                            m => m.AcademicRecords[i].MonthOfPassing,
+                                            new SelectList(
+                                                System.Globalization.DateTimeFormatInfo.InvariantInfo.MonthNames
+                                                .Where(mn => !string.IsNullOrEmpty(mn)),
+                                                Model.AcademicRecords[i].MonthOfPassing
+                                            ),
+                                            "-- Select Month --",
+                                            new { @class = "form-control", required = "required" }
+                                        )
+
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].MonthOfPassing, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(
+                      m => m.AcademicRecords[i].YearOfPassing,
+                      new SelectList(
+                          Enumerable.Range(1980, DateTime.Now.Year - 1979)
+                          .Reverse()
+                          .Select(y => y.ToString()), // Convert to string
+                          Model.AcademicRecords[i].YearOfPassing
+                      ),
+                      "-- Select Year --",
+                      new { @class = "form-control" }
+                  )
+
+
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].YearOfPassing, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.AcademicRecords[i].PercentageOrCGPA,
+                                            new
+                                                {
+                                                    @class = "form-control",
+                                                type = "number",
+                                                step = "0.01",   // Allows decimals like 85.50
+                                                min = "0",
+                                                max = "100",
+                                                placeholder = "Percentage/CGPA",
+                                                 required = "required",
+                                            })
+                                        @Html.ValidationMessageFor(m => m.AcademicRecords[i].PercentageOrCGPA, "", new { @class = "text-danger" })
+                                    </td>
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Back button is always shown for Step 2+ *@
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
                 universityId = Model.University.UniversityID,
                 schoolId = Model.School?.SchoolID,
                 step = ViewBag.PreviousStep
             })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
+                                ← Back
+                            </a>
+                        }
+                    </div>
 
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
                 universityId = Model.University.UniversityID,
                 schoolId = Model.School?.SchoolID,
                 step = ViewBag.NextStep
             })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
-                        </div>
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
                     </div>
-
-
                 </div>
 
-            }
+
+            </div>
+
         }
+    }
 
 
 
-        else if (ViewBag.CurrentStep == 3)
+    else if (ViewBag.CurrentStep == 3)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
         {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
 
-                <div class="form-step" id="step-3">
-                    <h3 class="mb-3">Last Institute Attended</h3>
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Applicant.InstituteName)
-                            @Html.TextBoxFor(m => m.Applicant.InstituteName, new { @class = "form-control", required = "required", placeholder = "Institute Name" })
-                            @Html.ValidationMessageFor(m => m.Applicant.InstituteName, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Applicant.InstituteAddress)
-                            @Html.TextBoxFor(m => m.Applicant.InstituteAddress, new { @class = "form-control", required = "required", placeholder = "Institute Address" })
-                            @Html.ValidationMessageFor(m => m.Applicant.InstituteAddress, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Applicant.InstituteCity)
-                            @Html.TextBoxFor(m => m.Applicant.InstituteCity, new { @class = "form-control", required = "required", placeholder = "City" })
-                            @Html.ValidationMessageFor(m => m.Applicant.InstituteCity, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Applicant.InstituteState)
-                            @Html.TextBoxFor(m => m.Applicant.InstituteState, new { @class = "form-control", required = "required", placeholder = "State" })
-                            @Html.ValidationMessageFor(m => m.Applicant.InstituteState, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Applicant.InstitutePincode)
-                            @Html.TextBoxFor(m => m.Applicant.InstitutePincode, new { @class = "form-control", required = "required", placeholder = "Pincode", maxlength = "6", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Applicant.InstitutePincode, "", new { @class = "text-danger" })
-                        </div>
+            <div class="form-step" id="step-3">
+                <h3 class="mb-3">Last Institute Attended</h3>
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.additional.InstituteName)
+                        @Html.TextBoxFor(m => m.additional.InstituteName, new { @class = "form-control", required = "required", placeholder = "Institute Name" })
+                        @Html.ValidationMessageFor(m => m.additional.InstituteName, "", new { @class = "text-danger" })
                     </div>
-
-                    <h3 class="mb-3">Category of Qualified Examination</h3>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            @Html.Label("Entry Category")
-                            @Html.DropDownListFor(m => m.Applicant.ExamType,
-                                                                 new SelectList(new[] { "Regular", "Lateral", "Sponsored", "Part-time" }),
-                                                                 "Select Entry Category",
-                                                                 new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Applicant.ExamType, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.Applicant.Score)
-                            @Html.TextBoxFor(m => m.Applicant.Score, new { @class = "form-control", placeholder = "NET Score (if any)", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Applicant.Score, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.additional.InstituteAddress)
+                        @Html.TextBoxFor(m => m.additional.InstituteAddress, new { @class = "form-control", required = "required", placeholder = "Institute Address" })
+                        @Html.ValidationMessageFor(m => m.additional.InstituteAddress, "", new { @class = "text-danger" })
                     </div>
-
-                    <h3 class="mb-3">Employee Status</h3>
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            <label for="IsEmployed">Currently Employed?</label>
-                            <select id="IsEmployed" name="IsEmployed" class="form-control" required onchange="document.getElementById('employmentFields').style.display = this.value === 'Yes' ? 'block' : 'none';">
-                                <option value="">-- Select --</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.additional.InstituteCity)
+                        @Html.TextBoxFor(m => m.additional.InstituteCity, new { @class = "form-control", required = "required", placeholder = "City" })
+                        @Html.ValidationMessageFor(m => m.additional.InstituteCity, "", new { @class = "text-danger" })
                     </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.additional.InstituteState)
+                        @Html.TextBoxFor(m => m.additional.InstituteState, new { @class = "form-control", required = "required", placeholder = "State" })
+                        @Html.ValidationMessageFor(m => m.additional.InstituteState, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.additional.InstitutePincode)
+                        @Html.TextBoxFor(m => m.additional.InstitutePincode, new { @class = "form-control", required = "required", placeholder = "Pincode", maxlength = "6", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.additional.InstitutePincode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                    <div id="employmentFields" style="display: none;">
-                        <div class="row mb-3">
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.Applicant.EmployerName)
-                                @Html.TextBoxFor(m => m.Applicant.EmployerName, new { @class = "form-control", placeholder = "Name of Employer" })
-                                @Html.ValidationMessageFor(m => m.Applicant.EmployerName, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.Applicant.CurrentDesignation)
-                                @Html.TextBoxFor(m => m.Applicant.CurrentDesignation, new { @class = "form-control", placeholder = "Designation" })
-                                @Html.ValidationMessageFor(m => m.Applicant.CurrentDesignation, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.Applicant.EmployerAddress)
-                                @Html.TextBoxFor(m => m.Applicant.EmployerAddress, new { @class = "form-control", placeholder = "Address of Employer" })
-                                @Html.ValidationMessageFor(m => m.Applicant.EmployerAddress, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.Applicant.DateOfJoining)
-                                @Html.TextBoxFor(m => m.Applicant.DateOfJoining, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                                @Html.ValidationMessageFor(m => m.Applicant.DateOfJoining, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.Applicant.Experience)
-                                @Html.TextBoxFor(m => m.Applicant.Experience, new { @class = "form-control", placeholder = "Total Experience (Years)" })
-                                @Html.ValidationMessageFor(m => m.Applicant.Experience, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.Applicant.DateOfEnrollmentAsAdvocate)
-                                @Html.TextBoxFor(m => m.Applicant.DateOfEnrollmentAsAdvocate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                                @Html.ValidationMessageFor(m => m.Applicant.DateOfEnrollmentAsAdvocate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                <h3 class="mb-3">Category of Qualified Examination</h3>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        @Html.Label("Entry Category")
+                        @Html.DropDownListFor(m => m.additional.ExamType,
+                                                             new SelectList(new[] { "Regular", "Lateral", "Sponsored", "Part-time" }),
+                                                             "Select Entry Category",
+                                                             new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.additional.ExamType, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-4">
-                        @Html.Label("Reason for Pursuing")
-                        @Html.TextAreaFor(m => m.Applicant.ReasonForPursuing, new { @class = "form-control", required = "required", placeholder = "Reason for pursuing Ph.D." })
-                        @Html.ValidationMessageFor(m => m.Applicant.ReasonForPursuing, "", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.additional.Score)
+                        @Html.TextBoxFor(m => m.additional.Score, new { @class = "form-control", placeholder = "NET Score (if any)", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')", required = "required" })
+                        @Html.ValidationMessageFor(m => m.additional.Score, "", new { @class = "text-danger" })
                     </div>
+                </div>
+
+                <h3 class="mb-3">Employee Status</h3>
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label for="IsEmployed">Currently Employed?</label>
+                        <select id="IsEmployed" name="IsEmployed" class="form-control" required onchange="document.getElementById('employmentFields').style.display = this.value === 'Yes' ? 'block' : 'none';">
+                            <option value="">-- Select --</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="employmentFields" style="display: none;">
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.additional.EmployerName)
+                            @Html.TextBoxFor(m => m.additional.EmployerName, new { @class = "form-control", required = "required", placeholder = "Name of Employer" })
+                            @Html.ValidationMessageFor(m => m.additional.EmployerName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.additional.CurrentDesignation)
+                            @Html.TextBoxFor(m => m.additional.CurrentDesignation, new { @class = "form-control", required = "required", placeholder = "Designation" })
+                            @Html.ValidationMessageFor(m => m.additional.CurrentDesignation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.additional.EmployerAddress)
+                            @Html.TextBoxFor(m => m.additional.EmployerAddress, new { @class = "form-control", required = "required", placeholder = "Address of Employer" })
+                            @Html.ValidationMessageFor(m => m.additional.EmployerAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.additional.DateOfJoining)
+                            @Html.TextBoxFor(m => m.additional.DateOfJoining, "{0:yyyy-MM-dd}", new { @class = "form-control", required = "required", type = "date" })
+                            @Html.ValidationMessageFor(m => m.additional.DateOfJoining, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.additional.Experience)
+                            @Html.TextBoxFor(m => m.additional.Experience, new { @class = "form-control", required = "required", placeholder = "Total Experience (Years)", type = "number" })
+                            @Html.ValidationMessageFor(m => m.additional.Experience, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.additional.DateOfEnrollmentAsAdvocate)
+                            @Html.TextBoxFor(m => m.additional.DateOfEnrollmentAsAdvocate, "{0:yyyy-MM-dd}", new { @class = "form-control", required = "required", type = "date" })
+                            @Html.ValidationMessageFor(m => m.additional.DateOfEnrollmentAsAdvocate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    @Html.Label("Reason for Pursuing")
+                    @Html.TextAreaFor(m => m.additional.ReasonForPursuing, new { @class = "form-control", required = "required", placeholder = "Reason for pursuing Ph.D." })
+                    @Html.ValidationMessageFor(m => m.additional.ReasonForPursuing, "", new { @class = "text-danger" })
+                </div>
 
 
 
 
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Back button is always shown for Step 2+ *@
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Back button is always shown for Step 2+ *@
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.PreviousStep
          })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
+                                ← Back
+                            </a>
+                        }
+                    </div>
 
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.NextStep
          })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+        }
+    }
+
+
+
+    else if (ViewBag.CurrentStep == 4)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
+        {
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
+
+            <div class="form-step" id="step-4" style="display:none">
+                <h3 class="mb-3">Work Experience</h3>
+                <div id="workExperienceContainer">
+                    <div class="work-experience-item row mb-3">
+                        <div class="col-md-2">
+                            @Html.Label("Employer Name")
+                            @Html.TextBoxFor(model => model.WorkExperience[0].EmployerName, new { @class = "form-control", required = "required", })
+                            @Html.ValidationMessageFor(model => model.WorkExperience[0].EmployerName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Employer Address")
+                            @Html.TextBoxFor(model => model.WorkExperience[0].EmployerAddress, new { @class = "form-control", required = "required", })
+                            @Html.ValidationMessageFor(model => model.WorkExperience[0].EmployerAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].DateOfJoining, "Date of Joining")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].DateOfJoining, "{0:yyyy-MM-dd}",
+                                new { @class = "form-control", required = "required", type = "date" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfJoining, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].DateOfLeaving, "Date of Leaving")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].DateOfLeaving, "{0:yyyy-MM-dd}",
+                         new { @class = "form-control", required = "required", type = "date" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfLeaving, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-2">
+                            @Html.Label("No. of Years")
+                            @Html.TextBoxFor(model => model.WorkExperience[0].NoOfYears, new { @class = "form-control", required = "required", type = "number" })
+                            @Html.ValidationMessageFor(model => model.WorkExperience[0].NoOfYears, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Designation")
+                            @Html.TextBoxFor(model => model.WorkExperience[0].Designation, new { @class = "form-control", required = "required", })
+                            @Html.ValidationMessageFor(model => model.WorkExperience[0].Designation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Area of Work")
+                            @Html.TextBoxFor(model => model.WorkExperience[0].AreaOfWork, new { @class = "form-control", required = "required", })
+                            @Html.ValidationMessageFor(model => model.WorkExperience[0].AreaOfWork, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addWorkExperienceBtn">Add More</button>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-work-exp" style="margin-top: 15px; display: none;">Remove</button>
                         </div>
                     </div>
-
-
                 </div>
-            }
+
+                <hr />
+                <h3 class="mb-3">Awards and Recognitions</h3>
+                <div id="awardsContainer">
+                    <div class="award-item row mb-3">
+                        <div class="col-md-2">
+                            @Html.Label("Award Title")
+                            @Html.TextBoxFor(model => model.Awards[0].AwardTitle, new { @class = "form-control", required = "required", })
+                            @Html.ValidationMessageFor(model => model.Awards[0].AwardTitle, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Award Year")
+                            @Html.TextBoxFor(model => model.Awards[0].AwardYear, new { @class = "form-control", type = "number", minlength = "4", required = "required" })
+
+
+
+                            @Html.ValidationMessageFor(model => model.Awards[0].AwardYear, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Basis")
+                            @Html.TextBoxFor(model => model.Awards[0].Basis, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Awards[0].Basis, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addAwardBtn">Add More</button>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-award" style="display: none;">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <h3 class="mb-3">Language Proficiency</h3>
+                <div id="languageContainer">
+                    <div class="language-item row mb-3">
+                        <div class="col-md-2">
+                            @Html.Label("Language")
+                            @Html.TextBoxFor(model => model.Languages[0].Language)
+                            @Html.ValidationMessageFor(model => model.Languages[0].Language, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center gap-3">
+                            <div class="form-check">
+                                @Html.CheckBoxFor(model => model.Languages[0].CanRead, new { @class = "form-check-input" })
+                                @Html.LabelFor(model => model.Languages[0].CanRead, "Read", new { @class = "form-check-label ms-1" })
+                            </div>
+                            <div class="form-check">
+                                @Html.CheckBoxFor(model => model.Languages[0].CanWrite, new { @class = "form-check-input" })
+                                @Html.LabelFor(model => model.Languages[0].CanWrite, "Write", new { @class = "form-check-label ms-1" })
+                            </div>
+                            <div class="form-check">
+                                @Html.CheckBoxFor(model => model.Languages[0].CanSpeak, new { @class = "form-check-input" })
+                                @Html.LabelFor(model => model.Languages[0].CanSpeak, "Speak", new { @class = "form-check-label ms-1" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addLanguageBtn">Add More</button>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-language" style="display: none;">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <h3 class="mb-3">Health and Legal Information</h3>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        @Html.Label("Health Issue")
+                        @Html.TextBoxFor(model => model.Languages[0].HealthIssue, new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Languages[0].HealthIssue, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("Legal Cases")
+                        @Html.TextBoxFor(model => model.Languages[0].LegalCases, new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.Languages[0].LegalCases, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Back button is always shown for Step 2+ *@
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
+             universityId = Model.University.UniversityID,
+             schoolId = Model.School?.SchoolID,
+             step = ViewBag.PreviousStep
+         })" class="btn btn-outline-secondary">
+                                ← Back
+                            </a>
+                        }
+                    </div>
+
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
+             universityId = Model.University.UniversityID,
+             schoolId = Model.School?.SchoolID,
+             step = ViewBag.NextStep
+         })" class="btn btn-info mx-2">
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
+                    </div>
+                </div>
+            </div>
         }
+    }
 
 
 
-        else if (ViewBag.CurrentStep == 4)
+
+
+    else if (ViewBag.CurrentStep == 5)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
         {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
 
-                <div class="form-step" id="step-4" style="display:none">
-                    <h3 class="mb-3">Work Experience</h3>
-                    <div id="workExperienceContainer">
-                        <div class="work-experience-item row mb-3">
-                            <div class="col-md-2">
-                                @Html.Label("Employer Name")
-                                @Html.TextBoxFor(model => model.WorkExperience[0].EmployerName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.WorkExperience[0].EmployerName, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.Label("Employer Address")
-                                @Html.TextBoxFor(model => model.WorkExperience[0].EmployerAddress, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.WorkExperience[0].EmployerAddress, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].DateOfJoining, "Date of Joining")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].DateOfJoining, "{0:yyyy-MM-dd}",
-                                    new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfJoining, "", new { @class = "text-danger" })
-                            </div>
+            <div class="form-step" id="step-5" style="display:none">
+                <h3 class="mb-3">Articles & Research</h3>
+                <div id="articlesContainer">
+                    <div class="article-item row mb-3">
+                        <div class="col-md-2">
+                            @Html.Label("Title of Article")
+                            @Html.TextBoxFor(model => model.Articles[0].TitleOfArticle, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Articles[0].TitleOfArticle, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Journal or Magazine")
+                            @Html.TextBoxFor(model => model.Articles[0].JournalOrMagazine, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Articles[0].JournalOrMagazine, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Published Date")
+                            @Html.TextBoxFor(model => model.Articles[0].PublishedDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.Articles[0].PublishedDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addArticleBtn">Add More</button>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-article" style="display:none;">Remove</button>
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].DateOfLeaving, "Date of Leaving")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].DateOfLeaving, "{0:yyyy-MM-dd}",
-                                    new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfLeaving, "", new { @class = "text-danger" })
-                            </div>
+                <hr />
+                <h3 class="mb-3">Seminar / Conference</h3>
+                <div id="seminarsContainer">
+                    <div class="seminar-item row mb-3">
+                        <div class="col-md-2">
+                            @Html.Label("Title of Article")
+                            @Html.TextBoxFor(model => model.Seminars[0].Topic, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Seminars[0].Topic, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Journal or Magazine")
+                            @Html.TextBoxFor(model => model.Seminars[0].OrganizedBy, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Seminars[0].OrganizedBy, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.Label("Published Date")
+                            @Html.TextBoxFor(model => model.Seminars[0].SeminarDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.Seminars[0].SeminarDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addSeminarBtn">Add More</button>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-seminar" style="display:none;">Remove</button>
+                        </div>
+                    </div>
+                </div>
 
+                <hr />
+                <div id="referencesContainer">
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        <h3 class="mb-3">Reference @(i + 1)</h3>
+                        <div class="reference-item row mb-3">
                             <div class="col-md-2">
-                                @Html.Label("No. of Years")
-                                @Html.TextBoxFor(model => model.WorkExperience[0].NoOfYears, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.WorkExperience[0].NoOfYears, "", new { @class = "text-danger" })
+                                @Html.Label("Name")
+                                @Html.TextBoxFor(model => model.References[i].Name, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.Label("Qualification")
+                                @Html.TextBoxFor(model => model.References[i].Qualification, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].Qualification, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.Label("Occupation")
+                                @Html.TextBoxFor(model => model.References[i].Occupation, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].Occupation, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-2">
                                 @Html.Label("Designation")
-                                @Html.TextBoxFor(model => model.WorkExperience[0].Designation, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.WorkExperience[0].Designation, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.References[i].Designation, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].Designation, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-2">
-                                @Html.Label("Area of Work")
-                                @Html.TextBoxFor(model => model.WorkExperience[0].AreaOfWork, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.WorkExperience[0].AreaOfWork, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addWorkExperienceBtn">Add More</button>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-work-exp" style="margin-top: 15px; display: none;">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <h3 class="mb-3">Awards and Recognitions</h3>
-                    <div id="awardsContainer">
-                        <div class="award-item row mb-3">
-                            <div class="col-md-2">
-                                @Html.Label("Award Title")
-                                @Html.TextBoxFor(model => model.Awards[0].AwardTitle, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Awards[0].AwardTitle, "", new { @class = "text-danger" })
+                                @Html.Label("Organization Address")
+                                @Html.TextBoxFor(model => model.References[i].OrganizationAddress, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].OrganizationAddress, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-2">
-                                @Html.Label("Award Year")
-                                @Html.TextBoxFor(model => model.Awards[0].AwardYear, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Awards[0].AwardYear, "", new { @class = "text-danger" })
+                                @Html.Label("City")
+                                @Html.TextBoxFor(model => model.References[i].City, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].City, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-2">
-                                @Html.Label("Basis")
-                                @Html.TextBoxFor(model => model.Awards[0].Basis, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Awards[0].Basis, "", new { @class = "text-danger" })
+                                @Html.Label("Pin Code")
+                                @Html.TextBoxFor(model => model.References[i].PinCode, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].PinCode, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addAwardBtn">Add More</button>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-award" style="display: none;">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <h3 class="mb-3">Language Proficiency</h3>
-                    <div id="languageContainer">
-                        <div class="language-item row mb-3">
                             <div class="col-md-2">
-                                @Html.Label("Language")
-                                @Html.TextBoxFor(model => model.Languages[0].Language)
-                                @Html.ValidationMessageFor(model => model.Languages[0].Language, "", new { @class = "text-danger" })
+                                @Html.Label("Mobile")
+                                @Html.TextBoxFor(model => model.References[i].Mobile, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.References[i].Mobile, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-md-3 d-flex align-items-center gap-3">
-                                <div class="form-check">
-                                    @Html.CheckBoxFor(model => model.Languages[0].CanRead, new { @class = "form-check-input" })
-                                    @Html.LabelFor(model => model.Languages[0].CanRead, "Read", new { @class = "form-check-label ms-1" })
-                                </div>
-                                <div class="form-check">
-                                    @Html.CheckBoxFor(model => model.Languages[0].CanWrite, new { @class = "form-check-input" })
-                                    @Html.LabelFor(model => model.Languages[0].CanWrite, "Write", new { @class = "form-check-label ms-1" })
-                                </div>
-                                <div class="form-check">
-                                    @Html.CheckBoxFor(model => model.Languages[0].CanSpeak, new { @class = "form-check-input" })
-                                    @Html.LabelFor(model => model.Languages[0].CanSpeak, "Speak", new { @class = "form-check-label ms-1" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addLanguageBtn">Add More</button>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-language" style="display: none;">Remove</button>
+                            <div class="col-md-2">
+                                @Html.Label("Email")
+                                @Html.TextBoxFor(model => model.References[i].Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.References[i].Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
+                    }
+                </div>
 
-                    <hr />
-                    <h3 class="mb-3">Health and Legal Information</h3>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            @Html.Label("Health Issue")
-                            @Html.TextBoxFor(model => model.Languages[0].HealthIssue, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Languages[0].HealthIssue, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-6">
-                            @Html.Label("Legal Cases")
-                            @Html.TextBoxFor(model => model.Languages[0].LegalCases, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Languages[0].LegalCases, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Back button is always shown for Step 2+ *@
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                <hr />
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Back button is always shown for Step 2+ *@
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.PreviousStep
          })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
-
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
-             universityId = Model.University.UniversityID,
-             schoolId = Model.School?.SchoolID,
-             step = ViewBag.NextStep
-         })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-
-
-
-
-
-        else if (ViewBag.CurrentStep == 5)
-        {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
-
-                <div class="form-step" id="step-5" style="display:none">
-                    <h3 class="mb-3">Articles & Research</h3>
-                    <div id="articlesContainer">
-                        <div class="article-item row mb-3">
-                            <div class="col-md-2">
-                                @Html.Label("Title of Article")
-                                @Html.TextBoxFor(model => model.Articles[0].TitleOfArticle, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Articles[0].TitleOfArticle, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.Label("Journal or Magazine")
-                                @Html.TextBoxFor(model => model.Articles[0].JournalOrMagazine, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Articles[0].JournalOrMagazine, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.Label("Published Date")
-                                @Html.TextBoxFor(model => model.Articles[0].PublishedDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
-                                @Html.ValidationMessageFor(model => model.Articles[0].PublishedDate, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addArticleBtn">Add More</button>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-article" style="display:none;">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <h3 class="mb-3">Seminar / Conference</h3>
-                    <div id="seminarsContainer">
-                        <div class="seminar-item row mb-3">
-                            <div class="col-md-2">
-                                @Html.Label("Title of Article")
-                                @Html.TextBoxFor(model => model.Seminars[0].Topic, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Seminars[0].Topic, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.Label("Journal or Magazine")
-                                @Html.TextBoxFor(model => model.Seminars[0].OrganizedBy, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Seminars[0].OrganizedBy, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.Label("Published Date")
-                                @Html.TextBoxFor(model => model.Seminars[0].SeminarDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
-                                @Html.ValidationMessageFor(model => model.Seminars[0].SeminarDate, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addSeminarBtn">Add More</button>
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-seminar" style="display:none;">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr />
-                    <div id="referencesContainer">
-                        @for (int i = 0; i < 2; i++)
-                        {
-                            <h3 class="mb-3">Reference @(i + 1)</h3>
-                            <div class="reference-item row mb-3">
-                                <div class="col-md-2">
-                                    @Html.Label("Name")
-                                    @Html.TextBoxFor(model => model.References[i].Name, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].Name, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Qualification")
-                                    @Html.TextBoxFor(model => model.References[i].Qualification, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].Qualification, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Occupation")
-                                    @Html.TextBoxFor(model => model.References[i].Occupation, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].Occupation, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Designation")
-                                    @Html.TextBoxFor(model => model.References[i].Designation, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].Designation, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Organization Address")
-                                    @Html.TextBoxFor(model => model.References[i].OrganizationAddress, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].OrganizationAddress, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("City")
-                                    @Html.TextBoxFor(model => model.References[i].City, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].City, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Pin Code")
-                                    @Html.TextBoxFor(model => model.References[i].PinCode, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].PinCode, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Mobile")
-                                    @Html.TextBoxFor(model => model.References[i].Mobile, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].Mobile, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.Label("Email")
-                                    @Html.TextBoxFor(model => model.References[i].Email, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.References[i].Email, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                                ← Back
+                            </a>
                         }
                     </div>
 
-                    <hr />
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Back button is always shown for Step 2+ *@
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
-             universityId = Model.University.UniversityID,
-             schoolId = Model.School?.SchoolID,
-             step = ViewBag.PreviousStep
-         })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
-
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.NextStep
          })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+
+
+
+    else if (ViewBag.CurrentStep == 6)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
+        {
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
+
+            <div class="form-step" id="step-6" style="display:none">
+                <h3 class="mb-3">Work Experience</h3>
+
+                <div id="workExperienceContainer1">
+                    <div class="work-experience-item row mb-3">
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].EmployerName, "Employer Name")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].EmployerName, new { @class = "form-control", placeholder = "Employer Name", required = "required" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].EmployerName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].EmployerAddress, "Employer Address")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].EmployerAddress, new { @class = "form-control", placeholder = "Employer Address", required = "required" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].EmployerAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].DateOfJoining, "Date of Joining")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].DateOfJoining, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfJoining, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].DateOfLeaving, "Date of Leaving")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].DateOfLeaving, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfLeaving, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].NoOfYears, "No. of Years")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].NoOfYears, new { @class = "form-control", required = "required", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].NoOfYears, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].Designation)
+                            @Html.TextBoxFor(m => m.WorkExperience[0].Designation, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].Designation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.WorkExperience[0].AreaOfWork, "Area of Work")
+                            @Html.TextBoxFor(m => m.WorkExperience[0].AreaOfWork, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.WorkExperience[0].AreaOfWork, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addWorkExperienceBtn1">Add More</button>
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-work-exp" style="margin-top: 15px; display: none;">Remove</button>
                         </div>
                     </div>
                 </div>
-            }
-        }
 
+                <hr />
+                <h3 class="mb-3">Publications</h3>
 
+                <div id="publicationsContainer">
+                    <div class="publication-item row mb-3">
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Publication[0].TitleOfPaper, "Title of Paper", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].TitleOfPaper, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Publication[0].TitleOfPaper, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Publication[0].Authors, "Authors", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].Authors, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.Publication[0].Authors, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Publication[0].Journal, "Journal", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].Journal, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Publication[0].Journal, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Publication[0].IndexedIn, "Indexed In", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].IndexedIn, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Publication[0].IndexedIn, "", new { @class = "text-danger" })
+                        </div>
 
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Publication[0].VolumeNo, "Volume No.", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].VolumeNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Publication[0].VolumeNo, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.Publication[0].Year, "Year", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].Year, new { @class = "form-control", type = "number", min = "1900", max = DateTime.Now.Year })
+                            @Html.ValidationMessageFor(m => m.Publication[0].Year, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Publication[0].PageFromTo, "Pages (From-To)", new { @class = "fw-bold" })
+                            @Html.TextBoxFor(m => m.Publication[0].PageFromTo, new { @class = "form-control", placeholder = "e.g. 123–130" })
+                            @Html.ValidationMessageFor(m => m.Publication[0].PageFromTo, "", new { @class = "text-danger" })
+                        </div>
 
-        else if (ViewBag.CurrentStep == 6)
-        {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
-
-                <div class="form-step" id="step-6" style="display:none">
-                    <h3 class="mb-3">Work Experience</h3>
-
-                    <div id="workExperienceContainer1">
-                        <div class="work-experience-item row mb-3">
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].EmployerName, "Employer Name")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].EmployerName, new { @class = "form-control", placeholder = "Employer Name", required = "required" })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].EmployerName, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].EmployerAddress, "Employer Address")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].EmployerAddress, new { @class = "form-control", placeholder = "Employer Address", required = "required" })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].EmployerAddress, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].DateOfJoining, "Date of Joining")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].DateOfJoining, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required", max = DateTime.Now.ToString("yyyy-MM-dd") })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfJoining, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].DateOfLeaving, "Date of Leaving")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].DateOfLeaving, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].DateOfLeaving, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].NoOfYears, "No. of Years")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].NoOfYears, new { @class = "form-control", required = "required", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')" })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].NoOfYears, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].Designation)
-                                @Html.TextBoxFor(m => m.WorkExperience[0].Designation, new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].Designation, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-2">
-                                @Html.LabelFor(m => m.WorkExperience[0].AreaOfWork, "Area of Work")
-                                @Html.TextBoxFor(m => m.WorkExperience[0].AreaOfWork, new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.WorkExperience[0].AreaOfWork, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addWorkExperienceBtn1">Add More</button>
-                            </div>
-
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-work-exp" style="margin-top: 15px; display: none;">Remove</button>
-                            </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-secondary" id="addPublicationBtn">Add More</button>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger remove-publication" style="display:none;">Remove</button>
                         </div>
                     </div>
+                </div>
 
-                    <hr />
-                    <h3 class="mb-3">Publications</h3>
-
-                    <div id="publicationsContainer">
-                        <div class="publication-item row mb-3">
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Publication[0].TitleOfPaper, "Title of Paper", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].TitleOfPaper, new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.Publication[0].TitleOfPaper, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Publication[0].Authors, "Authors", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].Authors, new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(m => m.Publication[0].Authors, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Publication[0].Journal, "Journal", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].Journal, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Publication[0].Journal, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Publication[0].IndexedIn, "Indexed In", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].IndexedIn, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Publication[0].IndexedIn, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Publication[0].VolumeNo, "Volume No.", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].VolumeNo, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Publication[0].VolumeNo, "", new { @class = "text-danger" })
+                <hr />
+                <div id="referencesContainer1">
+                    @for (int i = 0; i < 2; i++)
+                    {
+                        <h3 class="mb-3">Reference @(i + 1)</h3>
+                        <div class="reference-item row mb-3">
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].Name, "Name")
+                                @Html.TextBoxFor(m => m.References[i].Name, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].Name, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-md-2">
-                                @Html.LabelFor(m => m.Publication[0].Year, "Year", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].Year, new { @class = "form-control", type = "number", min = "1900", max = DateTime.Now.Year })
-                                @Html.ValidationMessageFor(m => m.Publication[0].Year, "", new { @class = "text-danger" })
+                                @Html.LabelFor(m => m.References[i].Qualification)
+                                @Html.TextBoxFor(m => m.References[i].Qualification, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].Qualification, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-md-3">
-                                @Html.LabelFor(m => m.Publication[0].PageFromTo, "Pages (From-To)", new { @class = "fw-bold" })
-                                @Html.TextBoxFor(m => m.Publication[0].PageFromTo, new { @class = "form-control", placeholder = "e.g. 123–130" })
-                                @Html.ValidationMessageFor(m => m.Publication[0].PageFromTo, "", new { @class = "text-danger" })
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].Occupation)
+                                @Html.TextBoxFor(m => m.References[i].Occupation, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].Occupation, "", new { @class = "text-danger" })
                             </div>
-
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-secondary" id="addPublicationBtn">Add More</button>
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].Designation)
+                                @Html.TextBoxFor(m => m.References[i].Designation, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].Designation, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger remove-publication" style="display:none;">Remove</button>
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].OrganizationAddress)
+                                @Html.TextBoxFor(m => m.References[i].OrganizationAddress, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].OrganizationAddress, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].City)
+                                @Html.TextBoxFor(m => m.References[i].City, new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].City, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].PinCode)
+                                @Html.TextBoxFor(m => m.References[i].PinCode, new { @class = "form-control", required = "required", maxlength = 6, oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                                @Html.ValidationMessageFor(m => m.References[i].PinCode, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].Mobile)
+                                @Html.TextBoxFor(m => m.References[i].Mobile, new { @class = "form-control", required = "required", maxlength = 10, oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                                @Html.ValidationMessageFor(m => m.References[i].Mobile, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                @Html.LabelFor(m => m.References[i].Email)
+                                @Html.TextBoxFor(m => m.References[i].Email, new { @class = "form-control", type = "email", required = "required" })
+                                @Html.ValidationMessageFor(m => m.References[i].Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
+                    }
+                </div>
 
-                    <hr />
-                    <div id="referencesContainer1">
-                        @for (int i = 0; i < 2; i++)
+                <hr />
+
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Back button is always shown for Step 2+ *@
+                        @if (ViewBag.PreviousStep != null)
                         {
-                            <h3 class="mb-3">Reference @(i + 1)</h3>
-                            <div class="reference-item row mb-3">
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].Name, "Name")
-                                    @Html.TextBoxFor(m => m.References[i].Name, new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].Name, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].Qualification)
-                                    @Html.TextBoxFor(m => m.References[i].Qualification, new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].Qualification, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].Occupation)
-                                    @Html.TextBoxFor(m => m.References[i].Occupation, new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].Occupation, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].Designation)
-                                    @Html.TextBoxFor(m => m.References[i].Designation, new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].Designation, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].OrganizationAddress)
-                                    @Html.TextBoxFor(m => m.References[i].OrganizationAddress, new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].OrganizationAddress, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].City)
-                                    @Html.TextBoxFor(m => m.References[i].City, new { @class = "form-control", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].City, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].PinCode)
-                                    @Html.TextBoxFor(m => m.References[i].PinCode, new { @class = "form-control", required = "required", maxlength = 6, oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                                    @Html.ValidationMessageFor(m => m.References[i].PinCode, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].Mobile)
-                                    @Html.TextBoxFor(m => m.References[i].Mobile, new { @class = "form-control", required = "required", maxlength = 10, oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                                    @Html.ValidationMessageFor(m => m.References[i].Mobile, "", new { @class = "text-danger" })
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.LabelFor(m => m.References[i].Email)
-                                    @Html.TextBoxFor(m => m.References[i].Email, new { @class = "form-control", type = "email", required = "required" })
-                                    @Html.ValidationMessageFor(m => m.References[i].Email, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
+             universityId = Model.University.UniversityID,
+             schoolId = Model.School?.SchoolID,
+             step = ViewBag.PreviousStep
+         })" class="btn btn-outline-secondary">
+                                ← Back
+                            </a>
                         }
                     </div>
 
-                    <hr />
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Back button is always shown for Step 2+ *@
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
-             universityId = Model.University.UniversityID,
-             schoolId = Model.School?.SchoolID,
-             step = ViewBag.PreviousStep
-         })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
-
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.NextStep
          })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
-                        </div>
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
                     </div>
                 </div>
-            }
+            </div>
         }
+    }
 
 
-        else if (ViewBag.CurrentStep == 7)
+    else if (ViewBag.CurrentStep == 7)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
         {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
 
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
-                <!-- Step 9: Employment & Research Details -->
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
+            <!-- Step 9: Employment & Research Details -->
 
-                <div class="form-step" id="step-7" style="display:none">
-                    <h3 class="mb-3">Employment & Research Details</h3>
+            <div class="form-step" id="step-7" style="display:none">
+                <h3 class="mb-3">Employment & Research Details</h3>
 
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.Emp.PresentEmployerName, "Present Employer Name")
-                            @Html.TextBoxFor(m => m.Emp.PresentEmployerName, new { @class = "form-control", placeholder = "Present Employer Name", required = "required", maxlength = "200" })
-                            @Html.ValidationMessageFor(m => m.Emp.PresentEmployerName, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.Emp.EmployeeDesignation, "Employee Designation")
-                            @Html.TextBoxFor(m => m.Emp.EmployeeDesignation, new { @class = "form-control", placeholder = "Employee Designation", required = "required", maxlength = "100" })
-                            @Html.ValidationMessageFor(m => m.Emp.EmployeeDesignation, "", new { @class = "text-danger" })
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Emp.PresentEmployerName, "Present Employer Name")
+                        @Html.TextBoxFor(m => m.Emp.PresentEmployerName, new { @class = "form-control", placeholder = "Present Employer Name", required = "required", maxlength = "200" })
+                        @Html.ValidationMessageFor(m => m.Emp.PresentEmployerName, "", new { @class = "text-danger" })
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            @Html.Label("NOC Attached")
-                            @Html.DropDownListFor(m => m.Emp.HasAttachedNOC, new SelectList(new[] {
-                                new SelectListItem { Text = "Yes", Value = "true" },
-                                new SelectListItem { Text = "No", Value = "false" }
-                            }, "Value", "Text"), "Select", new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Emp.HasAttachedNOC, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Emp.EmployeeDesignation, "Employee Designation")
+                        @Html.TextBoxFor(m => m.Emp.EmployeeDesignation, new { @class = "form-control", placeholder = "Employee Designation", required = "required", maxlength = "100" })
+                        @Html.ValidationMessageFor(m => m.Emp.EmployeeDesignation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                        <div class="col-md-3">
-                            @Html.Label("Employer Permission")
-                            @Html.DropDownListFor(m => m.Emp.HasEmployerPermission, new SelectList(new[] {
-                                new SelectListItem { Text = "Yes", Value = "true" },
-                                new SelectListItem { Text = "No", Value = "false" }
-                            }, "Value", "Text"), "Select", new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Emp.HasEmployerPermission, "", new { @class = "text-danger" })
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        @Html.Label("NOC Attached")
+                        @Html.DropDownListFor(m => m.Emp.HasAttachedNOC, new SelectList(new[] {
+                            new SelectListItem { Text = "Yes", Value = "true" },
+                            new SelectListItem { Text = "No", Value = "false" }
+                        }, "Value", "Text"), "Select", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Emp.HasAttachedNOC, "", new { @class = "text-danger" })
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Emp.ResearchArea, "Research Area")
-                            @Html.TextAreaFor(m => m.Emp.ResearchArea, 3, 50, new { @class = "form-control", placeholder = "Enter Research Area", required = "required", maxlength = "1000" })
-                            @Html.ValidationMessageFor(m => m.Emp.ResearchArea, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-3">
+                        @Html.Label("Employer Permission")
+                        @Html.DropDownListFor(m => m.Emp.HasEmployerPermission, new SelectList(new[] {
+                            new SelectListItem { Text = "Yes", Value = "true" },
+                            new SelectListItem { Text = "No", Value = "false" }
+                        }, "Value", "Text"), "Select", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Emp.HasEmployerPermission, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Emp.ResearchProblemStatement, "Research Problem Statement")
-                            @Html.TextAreaFor(m => m.Emp.ResearchProblemStatement, 3, 50, new { @class = "form-control", placeholder = "Describe your research problem", required = "required", maxlength = "2000" })
-                            @Html.ValidationMessageFor(m => m.Emp.ResearchProblemStatement, "", new { @class = "text-danger" })
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Emp.ResearchArea, "Research Area")
+                        @Html.TextAreaFor(m => m.Emp.ResearchArea, 3, 50, new { @class = "form-control", placeholder = "Enter Research Area", required = "required", maxlength = "1000" })
+                        @Html.ValidationMessageFor(m => m.Emp.ResearchArea, "", new { @class = "text-danger" })
                     </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Emp.ResearchProblemStatement, "Research Problem Statement")
+                        @Html.TextAreaFor(m => m.Emp.ResearchProblemStatement, 3, 50, new { @class = "form-control", placeholder = "Describe your research problem", required = "required", maxlength = "2000" })
+                        @Html.ValidationMessageFor(m => m.Emp.ResearchProblemStatement, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
 
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @* Back button is always shown for Step 2+ *@
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @* Back button is always shown for Step 2+ *@
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.PreviousStep
          })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
+                                ← Back
+                            </a>
+                        }
+                    </div>
 
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
              universityId = Model.University.UniversityID,
              schoolId = Model.School?.SchoolID,
              step = ViewBag.NextStep
          })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
-                        </div>
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
                     </div>
                 </div>
-            }
+            </div>
         }
+    }
 
 
 
-        else if (ViewBag.CurrentStep == 8)
+    else if (ViewBag.CurrentStep == 8)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
         {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
 
-                <div class="form-step" id="step-8" style="display:none">
-                    <h3 class="mb-3">ICFAI Affiliation & Research Details</h3>
+            <div class="form-step" id="step-8" style="display:none">
+                <h3 class="mb-3">ICFAI Affiliation & Research Details</h3>
 
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.AssociatedWithICFAI.AssociatedWithICFAI, "Are you currently associated with ICFAI?")
-                            @Html.DropDownListFor(m => m.AssociatedWithICFAI.AssociatedWithICFAI,
-                                new SelectList(new[] {
-                                    new { Value = "", Text = "-- Select --" },
-                                    new { Value = "true", Text = "Yes" },
-                                    new { Value = "false", Text = "No" }
-                                }, "Value", "Text"),
-                                new { @class = "form-control", required = "required", id = "associatedWithICFAI" })
-                            @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.AssociatedWithICFAI, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-md-8 mt-3" id="associatedDetailsContainer" style="display:none;">
-                            @* Optional field if needed *@
-                            @Html.Label("Please provide details of your association with ICFAI")
-                            <textarea name="AssociatedWithICFAI.AssociationDetails" class="form-control" rows="3"></textarea>
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.AssociatedWithICFAI.AssociatedWithICFAI, "Are you currently associated with ICFAI?")
+                        @Html.DropDownListFor(m => m.AssociatedWithICFAI.AssociatedWithICFAI,
+                            new SelectList(new[] {
+                                new { Value = "", Text = "-- Select --" },
+                                new { Value = "true", Text = "Yes" },
+                                new { Value = "false", Text = "No" }
+                            }, "Value", "Text"),
+                            new { @class = "form-control", required = "required", id = "associatedWithICFAI" })
+                        @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.AssociatedWithICFAI, "", new { @class = "text-danger" })
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            @Html.LabelFor(m => m.AssociatedWithICFAI.ProposedResearchTopic, "Proposed Research Topic")
-                            @Html.TextAreaFor(m => m.AssociatedWithICFAI.ProposedResearchTopic,
-                                new { @class = "form-control", rows = 3, required = "required" })
-                            @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.ProposedResearchTopic, "", new { @class = "text-danger" })
-                        </div>
+                    <div class="col-md-8 mt-3" id="associatedDetailsContainer" style="display:none;">
+                        @* Optional field if needed *@
+                        @Html.Label("Please provide details of your association with ICFAI")
+                        <textarea name="AssociatedWithICFAI.AssociationDetails" class="form-control" rows="3"></textarea>
                     </div>
+                </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            @Html.LabelFor(m => m.AssociatedWithICFAI.ReasonForJoining, "Reason for joining the Ph.D. program")
-                            @Html.TextAreaFor(m => m.AssociatedWithICFAI.ReasonForJoining,
-                                new { @class = "form-control", rows = 3, required = "required" })
-                            @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.ReasonForJoining, "", new { @class = "text-danger" })
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(m => m.AssociatedWithICFAI.ProposedResearchTopic, "Proposed Research Topic")
+                        @Html.TextAreaFor(m => m.AssociatedWithICFAI.ProposedResearchTopic,
+                            new { @class = "form-control", rows = 3, required = "required" })
+                        @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.ProposedResearchTopic, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.AssociatedWithICFAI.KnowAnyoneInICFAI, "Do you know anyone in ICFAI?")
-                            @Html.DropDownListFor(m => m.AssociatedWithICFAI.KnowAnyoneInICFAI,
-                                new SelectList(new[] {
-                                    new { Value = "", Text = "-- Select --" },
-                                    new { Value = "true", Text = "Yes" },
-                                    new { Value = "false", Text = "No" }
-                                }, "Value", "Text"),
-                                new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.KnowAnyoneInICFAI, "", new { @class = "text-danger" })
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(m => m.AssociatedWithICFAI.ReasonForJoining, "Reason for joining the Ph.D. program")
+                        @Html.TextAreaFor(m => m.AssociatedWithICFAI.ReasonForJoining,
+                            new { @class = "form-control", rows = 3, required = "required" })
+                        @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.ReasonForJoining, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            @Html.LabelFor(m => m.AssociatedWithICFAI.IntendedResearchArea, "Your intended research area")
-                            @Html.TextAreaFor(m => m.AssociatedWithICFAI.IntendedResearchArea,
-                                new { @class = "form-control", rows = 3, required = "required" })
-                            @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.IntendedResearchArea, "", new { @class = "text-danger" })
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.AssociatedWithICFAI.KnowAnyoneInICFAI, "Do you know anyone in ICFAI?")
+                        @Html.DropDownListFor(m => m.AssociatedWithICFAI.KnowAnyoneInICFAI,
+                            new SelectList(new[] {
+                                new { Value = "", Text = "-- Select --" },
+                                new { Value = "true", Text = "Yes" },
+                                new { Value = "false", Text = "No" }
+                            }, "Value", "Text"),
+                            new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.KnowAnyoneInICFAI, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(m => m.AssociatedWithICFAI.IntendedResearchArea, "Your intended research area")
+                        @Html.TextAreaFor(m => m.AssociatedWithICFAI.IntendedResearchArea,
+                            new { @class = "form-control", rows = 3, required = "required" })
+                        @Html.ValidationMessageFor(m => m.AssociatedWithICFAI.IntendedResearchArea, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
                         universityId = Model.University.UniversityID,
                         schoolId = Model.School?.SchoolID,
                         step = ViewBag.PreviousStep
                     })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
+                                ← Back
+                            </a>
+                        }
+                    </div>
 
-                        <div>
-                            @if (ViewBag.IsStepPosted == true)
-                            {
-                                <!-- After posting: Back + Next -->
-                                <a href="@Url.Action("ApplicationForm", "Form", new {
+                    <div>
+                        @if (ViewBag.IsStepPosted == true)
+                        {
+                            <!-- After posting: Back + Next -->
+                            <a href="@Url.Action("ApplicationForm", "Form", new {
                         universityId = Model.University.UniversityID,
                         schoolId = Model.School?.SchoolID,
                         step = ViewBag.NextStep
                     })" class="btn btn-info mx-2">
-                                    Next →
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Before posting: Back + Save & Next -->
-                                <button type="submit" class="btn btn-primary">Save & Next →</button>
-                            }
-                        </div>
-                    </div>
-                </div>
-            }
-
-        }
-
-
-
-
-
-        else if (ViewBag.CurrentStep == 9)
-        {
-            using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
-            {
-                @Html.HiddenFor(model => model.University.UniversityID)
-                @Html.HiddenFor(model => model.School.SchoolID)
-                @Html.Hidden("step", (int)ViewBag.CurrentStep)
-
-                <div class="form-step" id="step-9" style="display:none">
-                    <h3 class="mb-3">Domicile & Contact Details</h3>
-
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            <label for="DomicileStatus">Domicile Status</label>
-                            @Html.DropDownListFor(m => m.Back.DomicileStatus,
-                                         new SelectList(new[] { "Domicile", "Not Domicile" }),
-                                         "Select Domicile Status",
-                                         new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Back.DomicileStatus, "", new { @class = "text-danger" })
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="SourceOfContact">SourceOfContact</label>
-                            @Html.DropDownListFor(m => m.Back.SourceOfContact,
-                                         new SelectList(new[] { "Internet", "Social Media" }),
-                                         "Select Source Of Contact",
-                                         new { @class = "form-control", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Back.SourceOfContact, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <h3 class="mb-3">Parent's Background</h3>
-
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.MotherName)
-                            @Html.TextBoxFor(m => m.Back.MotherName, new { @class = "form-control", placeholder = "Mother's Name", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Back.MotherName, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.MotherQualification)
-                            @Html.TextBoxFor(m => m.Back.MotherQualification, new { @class = "form-control", placeholder = "Mother's Qualification" })
-                            @Html.ValidationMessageFor(m => m.Back.MotherQualification, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.MotherAnnualIncome)
-                            @Html.TextBoxFor(m => m.Back.MotherAnnualIncome, new { @class = "form-control", placeholder = "Annual Income", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Back.MotherAnnualIncome, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.MotherContactNumber)
-                            @Html.TextBoxFor(m => m.Back.MotherContactNumber, new { @class = "form-control", placeholder = "Contact Number", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Back.MotherContactNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.FatherName)
-                            @Html.TextBoxFor(m => m.Back.FatherName, new { @class = "form-control", placeholder = "Father's Name", required = "required" })
-                            @Html.ValidationMessageFor(m => m.Back.FatherName, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.FatherQualification)
-                            @Html.TextBoxFor(m => m.Back.FatherQualification, new { @class = "form-control", placeholder = "Father's Qualification" })
-                            @Html.ValidationMessageFor(m => m.Back.FatherQualification, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.FatherAnnualIncome)
-                            @Html.TextBoxFor(m => m.Back.FatherAnnualIncome, new { @class = "form-control", placeholder = "Annual Income", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Back.FatherAnnualIncome, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(m => m.Back.FatherContactNumber)
-                            @Html.TextBoxFor(m => m.Back.FatherContactNumber, new { @class = "form-control", placeholder = "Contact Number", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
-                            @Html.ValidationMessageFor(m => m.Back.FatherContactNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-md-4">
-                            @Html.Label("Enter Captcha")
-                            <div class="input-group">
-                                @Html.TextBoxFor(m => m.Back.ImageCode, new { @class = "form-control", placeholder = "Enter Captcha", required = "required" })
-                                <span class="input-group-text" style="font-family: 'Courier New', monospace; font-size: 18px;" id="captchaCode">@GenerateCaptcha()</span>
-                            </div>
-                            @Html.ValidationMessageFor(m => m.Back.ImageCode, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <!-- ✅ Declaration -->
-                    <div class="form-check mt-3 mb-4">
-                        <input type="checkbox" class="form-check-input" id="DeclarationAccepted" name="DeclarationAccepted" />
-                        <label class="form-check-label" for="DeclarationAccepted">
-                            I hereby declare that the information provided is true to the best of my knowledge.
-                        </label>
-                        <span class="text-danger field-validation-valid" data-valmsg-for="DeclarationAccepted" data-valmsg-replace="true"></span>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <div>
-                            @if (ViewBag.PreviousStep != null)
-                            {
-                                <a href="@Url.Action("ApplicationForm", "Form", new
-            {
-                universityId = Model.University.UniversityID,
-                schoolId = Model.School?.SchoolID,
-                step = ViewBag.PreviousStep
-            })" class="btn btn-outline-secondary">
-                                    ← Back
-                                </a>
-                            }
-                        </div>
-
-                        <div>
-                            <!-- ✅ Final Submit button (disabled by default) -->
-                            <button type="button" id="submitApplication" class="btn btn-success" disabled style="opacity: 0.5;">
-                                Submit Application
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            <!-- ✅ Success Popup Modal -->
-            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success text-white">
-                            <h5 class="modal-title" id="successModalLabel">Application Submitted</h5>
-                        </div>
-                        <div class="modal-body">
-                            Your application has been submitted successfully!
-                        </div>
-                        <div class="modal-footer">
-                            <a href="@Url.Action("Index","Form")" class="btn btn-primary">OK</a>
-                        </div>
+                                Next →
+                            </a>
+                        }
+                        else
+                        {
+                            <!-- Before posting: Back + Save & Next -->
+                            <button type="submit" class="btn btn-primary">Save & Next →</button>
+                        }
                     </div>
                 </div>
             </div>
         }
 
-    </div>
+    }
+
+
+
+    else if (ViewBag.CurrentStep == 9)
+    {
+        using (Html.BeginForm("ApplicationForm", "Form", FormMethod.Post, new { enctype = "multipart/form-data", id = "phdForm" }))
+        {
+            @Html.HiddenFor(model => model.University.UniversityID)
+            @Html.HiddenFor(model => model.School.SchoolID)
+            @Html.Hidden("step", (int)ViewBag.CurrentStep)
+
+            <div class="form-step" id="step-9" style="display:none">
+                <h3 class="mb-3">Domicile & Contact Details</h3>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label for="DomicileStatus">Domicile Status</label>
+                        @Html.DropDownListFor(m => m.Back.DomicileStatus,
+                                     new SelectList(new[] { "Domicile", "Not Domicile" }),
+                                     "Select Domicile Status",
+                                     new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Back.DomicileStatus, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="SourceOfContact">SourceOfContact</label>
+                        @Html.DropDownListFor(m => m.Back.SourceOfContact,
+                                     new SelectList(new[] { "Internet", "Social Media" }),
+                                     "Select Source Of Contact",
+                                     new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Back.SourceOfContact, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <h3 class="mb-3">Parent's Background</h3>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.MotherName)
+                        @Html.TextBoxFor(m => m.Back.MotherName, new { @class = "form-control", placeholder = "Mother's Name", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Back.MotherName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.MotherQualification)
+                        @Html.TextBoxFor(m => m.Back.MotherQualification, new { @class = "form-control", required = "required", placeholder = "Mother's Qualification" })
+                        @Html.ValidationMessageFor(m => m.Back.MotherQualification, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.MotherAnnualIncome)
+                        @Html.TextBoxFor(m => m.Back.MotherAnnualIncome, new { @class = "form-control", placeholder = "Annual Income", type = "number", required = "required", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Back.MotherAnnualIncome, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.MotherContactNumber)
+                        @Html.TextBoxFor(m => m.Back.MotherContactNumber, new { @class = "form-control", placeholder = "Contact Number", minlength = "10", maxlength = "10", required = "required", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Back.MotherContactNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.FatherName)
+                        @Html.TextBoxFor(m => m.Back.FatherName, new { @class = "form-control", placeholder = "Father's Name", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Back.FatherName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.FatherQualification)
+                        @Html.TextBoxFor(m => m.Back.FatherQualification, new { @class = "form-control", required = "required", placeholder = "Father's Qualification" })
+                        @Html.ValidationMessageFor(m => m.Back.FatherQualification, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.FatherAnnualIncome)
+                        @Html.TextBoxFor(m => m.Back.FatherAnnualIncome, new { @class = "form-control", placeholder = "Annual Income", type = "number", required = "required", oninput = "this.value=this.value.replace(/[^0-9.]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Back.FatherAnnualIncome, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(m => m.Back.FatherContactNumber)
+                        @Html.TextBoxFor(m => m.Back.FatherContactNumber, new { @class = "form-control", placeholder = "Contact Number", minlength = "10", maxlength = "10", required = "required", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                        @Html.ValidationMessageFor(m => m.Back.FatherContactNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        @Html.Label("Enter Captcha")
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Back.ImageCode, new { @class = "form-control", placeholder = "Enter Captcha", required = "required" })
+                            <span class="input-group-text" style="font-family: 'Courier New', monospace; font-size: 18px;" id="captchaCode">@GenerateCaptcha()</span>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Back.ImageCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- ✅ Declaration -->
+                <div class="form-check mt-3 mb-4">
+                    <input type="checkbox" class="form-check-input" id="DeclarationAccepted" name="DeclarationAccepted" />
+                    <label class="form-check-label" for="DeclarationAccepted">
+                        I hereby declare that the information provided is true to the best of my knowledge.
+                    </label>
+                    <span class="text-danger field-validation-valid" data-valmsg-for="DeclarationAccepted" data-valmsg-replace="true"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        @if (ViewBag.PreviousStep != null)
+                        {
+                            <a href="@Url.Action("ApplicationForm", "Form", new
+            {
+                universityId = Model.University.UniversityID,
+                schoolId = Model.School?.SchoolID,
+                step = ViewBag.PreviousStep
+            })" class="btn btn-outline-secondary">
+                                ← Back
+                            </a>
+                        }
+                    </div>
+
+                    <div>
+                        <!-- ✅ Final Submit button (disabled by default) -->
+                        <button type="button" id="submitApplication" class="btn btn-success" disabled style="opacity: 0.5;">
+                            Submit Application
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- ✅ Success Popup Modal -->
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="successModalLabel">Application Submitted</h5>
+                    </div>
+                    <div class="modal-body">
+                        Your application has been submitted successfully!
+                    </div>
+                    <div class="modal-footer">
+                        <a href="@Url.Action("Login","Form")" class="btn btn-primary">OK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

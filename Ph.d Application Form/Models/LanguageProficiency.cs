@@ -24,6 +24,7 @@ namespace Ph.d_Application_Form.Models
         public bool CanSpeak { get; set; }
         public string HealthIssue { get; set; }
         public string LegalCases { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

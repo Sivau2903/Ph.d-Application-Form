@@ -1,0 +1,31 @@
+﻿@model Ph.d_Application_Form.Models.ApplicantBackgroundDetail
+
+@if (Model != null)
+{
+    <div class="card p-3">
+        <h5 class="text-primary">Background Details</h5>
+
+        <p><strong>Domicile Status:</strong> @Model.DomicileStatus</p>
+        <p><strong>Source of Contact:</strong> @Model.SourceOfContact</p>
+
+        <h6 class="mt-3 text-secondary">Mother's Information</h6>
+        <p><strong>Name:</strong> @Model.MotherName</p>
+        <p><strong>Qualification:</strong> @Model.MotherQualification</p>
+        <p><strong>Annual Income:</strong> @(Model.MotherAnnualIncome.HasValue ? Model.MotherAnnualIncome.Value.ToString("C") : "N/A")</p>
+        <p><strong>Contact Number:</strong> @Model.MotherContactNumber</p>
+
+        <h6 class="mt-3 text-secondary">Father's Information</h6>
+        <p><strong>Name:</strong> @Model.FatherName</p>
+        <p><strong>Qualification:</strong> @Model.FatherQualification</p>
+        <p><strong>Annual Income:</strong> @(Model.FatherAnnualIncome.HasValue ? Model.FatherAnnualIncome.Value.ToString("C") : "N/A")</p>
+        <p><strong>Contact Number:</strong> @Model.FatherContactNumber</p>
+
+        <h6 class="mt-3 text-secondary">Other Info</h6>
+        <p><strong>Image Code:</strong> @Model.ImageCode</p>
+        <p><strong>Inserted Date:</strong> @Model.InsertedDate?.ToString("dd-MM-yyyy")</p>
+    </div>
+}
+else
+{
+    <p class="text-danger">No background details found.</p>
+}

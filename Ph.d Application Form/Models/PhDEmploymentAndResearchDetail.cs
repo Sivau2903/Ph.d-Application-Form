@@ -25,6 +25,7 @@ namespace Ph.d_Application_Form.Models
         public Nullable<bool> HasEmployerPermission { get; set; }
         public string ResearchArea { get; set; }
         public string ResearchProblemStatement { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
     
         public virtual School School { get; set; }
         public virtual University University { get; set; }

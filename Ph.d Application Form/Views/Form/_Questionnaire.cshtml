@@ -1,0 +1,33 @@
+﻿
+@model Ph.d_Application_Form.Models.PhDQuestionnaire
+
+@if (Model != null)
+{
+    <div class="card p-3">
+        <h5 class="text-primary">PhD Questionnaire</h5>
+
+        <p>
+            <strong>Associated With ICFAI:</strong>
+            @(Model.AssociatedWithICFAI.HasValue
+                ? (Model.AssociatedWithICFAI.Value ? "Yes" : "No")
+                : "N/A")
+        </p>
+
+        <p><strong>Proposed Research Topic:</strong> @Model.ProposedResearchTopic</p>
+        <p><strong>Reason for Joining:</strong> @Model.ReasonForJoining</p>
+
+        <p>
+            <strong>Know Anyone in ICFAI:</strong>
+            @(Model.KnowAnyoneInICFAI.HasValue
+                ? (Model.KnowAnyoneInICFAI.Value ? "Yes" : "No")
+                : "N/A")
+        </p>
+
+        <p><strong>Intended Research Area:</strong> @Model.IntendedResearchArea</p>
+        <p><strong>Inserted Date:</strong> @Model.InsertedDate?.ToString("dd-MM-yyyy")</p>
+    </div>
+}
+else
+{
+    <p class="text-danger">No questionnaire details found.</p>
+}

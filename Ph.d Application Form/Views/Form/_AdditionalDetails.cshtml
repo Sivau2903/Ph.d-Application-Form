@@ -1,0 +1,50 @@
+﻿@model Ph.d_Application_Form.Models.AdditionalPhDDetail
+
+@if (Model != null)
+{
+    <div class="card p-3">
+        <h5 class="text-primary">Additional PhD Details</h5>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <p><strong>Exam Type:</strong> @Model.ExamType</p>
+                <p><strong>Score:</strong> @Model.Score</p>
+                <p><strong>Exam Year:</strong> @Model.ExamYear</p>
+            </div>
+            <div class="col-md-8">
+                <p><strong>Institute Name:</strong> @Model.InstituteName</p>
+                <p><strong>City:</strong> @Model.InstituteCity</p>
+                <p><strong>State:</strong> @Model.InstituteState</p>
+                <p><strong>Address:</strong> @Model.InstituteAddress</p>
+                <p><strong>Pincode:</strong> @Model.InstitutePincode</p>
+            </div>
+        </div>
+
+        <h6 class="text-secondary">Employment Details</h6>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <p><strong>Employed:</strong> @(Model.IsEmployed == true ? "Yes" : "No")</p>
+                <p><strong>Employer Name:</strong> @Model.EmployerName</p>
+                <p><strong>Designation:</strong> @Model.CurrentDesignation</p>
+                <p><strong>Date of Joining:</strong> @Model.DateOfJoining?.ToString("dd-MM-yyyy")</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Employer Address:</strong> @Model.EmployerAddress</p>
+                <p><strong>Total Experience:</strong> @Model.Experience</p>
+                <p><strong>Date of Enrollment as Advocate:</strong> @Model.DateOfEnrollmentAsAdvocate?.ToString("dd-MM-yyyy")</p>
+            </div>
+        </div>
+
+        <h6 class="text-secondary">Reason for Pursuing PhD</h6>
+        <p>@Model.ReasonForPursuing</p>
+
+        <p class="text-muted mt-2">
+            <strong>Last Updated:</strong> @Model.InsertedDate?.ToString("dd-MM-yyyy")
+        </p>
+    </div>
+}
+else
+{
+    <p class="text-danger">No additional PhD details found.</p>
+}
+

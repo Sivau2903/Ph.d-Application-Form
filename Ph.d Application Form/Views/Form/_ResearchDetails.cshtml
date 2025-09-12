@@ -1,0 +1,83 @@
+﻿
+@model Ph.d_Application_Form.Models.ApplicationFormHeaderViewModel
+
+<div class="research-section">
+    <h4>Articles & Research</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title of Article</th>
+                <th>Journal / Magazine</th>
+                <th>Published Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var article in Model.Articles)
+            {
+                <tr>
+                    <td>@article.TitleOfArticle</td>
+                    <td>@article.JournalOrMagazine</td>
+                    <td>@article.PublishedDate?.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="seminar-section mt-4">
+    <h4>Seminars & Conferences</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Organized By</th>
+                <th>Seminar Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var seminar in Model.Seminars)
+            {
+                <tr>
+                    <td>@seminar.Topic</td>
+                    <td>@seminar.OrganizedBy</td>
+                    <td>@seminar.SeminarDate?.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="reference-section mt-4">
+    <h4>References</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Qualification</th>
+                <th>Occupation</th>
+                <th>Designation</th>
+                <th>Organization Address</th>
+                <th>City</th>
+                <th>Pin Code</th>
+                <th>Mobile</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reference in Model.References)
+            {
+                <tr>
+                    <td>@reference.Name</td>
+                    <td>@reference.Qualification</td>
+                    <td>@reference.Occupation</td>
+                    <td>@reference.Designation</td>
+                    <td>@reference.OrganizationAddress</td>
+                    <td>@reference.City</td>
+                    <td>@reference.PinCode</td>
+                    <td>@reference.Mobile</td>
+                    <td>@reference.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

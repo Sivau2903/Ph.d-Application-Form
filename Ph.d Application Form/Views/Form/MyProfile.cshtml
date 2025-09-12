@@ -1,0 +1,33 @@
+﻿@model Ph.d_Application_Form.Models.AdminProfileViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary mb-4">My Profile</h2>
+    <div class="card shadow-sm p-4">
+        <dl class="row">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Phone Number</dt>
+            <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.EmailID</dd>
+
+            <dt class="col-sm-3">Date of Birth</dt>
+            <dd class="col-sm-9">@Model.DOB?.ToString("dd-MMM-yyyy")</dd>
+
+            <dt class="col-sm-3">Role</dt>
+            <dd class="col-sm-9">@Model.Role</dd>
+
+            <dt class="col-sm-3">University</dt>
+            <dd class="col-sm-9">@(!string.IsNullOrEmpty(Model.UniversityName) ? Model.UniversityName : "-")</dd>
+
+            <dt class="col-sm-3">School</dt>
+            <dd class="col-sm-9">@(!string.IsNullOrEmpty(Model.SchoolName) ? Model.SchoolName : "-")</dd>
+        </dl>
+    </div>
+</div>

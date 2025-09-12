@@ -29,6 +29,8 @@ namespace Ph.d_Application_Form.Models
             this.WorkExperiences = new HashSet<WorkExperience>();
             this.ApplicantAcademicRecords = new HashSet<ApplicantAcademicRecord>();
             this.PhDQuestionnaires = new HashSet<PhDQuestionnaire>();
+            this.ApplicationsReports = new HashSet<ApplicationsReport>();
+            this.Users = new HashSet<User>();
         }
     
         public int ApplicantID { get; set; }
@@ -55,6 +57,11 @@ namespace Ph.d_Application_Form.Models
         public string Pincode { get; set; }
         public string PhotoPath { get; set; }
         public string SignaturePath { get; set; }
+        public Nullable<System.DateTime> InsertedDate { get; set; }
+        public string ApplicationNo { get; set; }
+        public string TransactionNo { get; set; }
+        public Nullable<System.DateTime> TransactionDate { get; set; }
+        public string TransactionCategory { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalPhDDetail> AdditionalPhDDetails { get; set; }
@@ -83,5 +90,9 @@ namespace Ph.d_Application_Form.Models
         public virtual ICollection<ApplicantAcademicRecord> ApplicantAcademicRecords { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhDQuestionnaire> PhDQuestionnaires { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ApplicationsReport> ApplicationsReports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

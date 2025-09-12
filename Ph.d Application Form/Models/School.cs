@@ -42,6 +42,7 @@ namespace Ph.d_Application_Form.Models
         public string LogoPath { get; set; }
         public Nullable<bool> AllowsFullTime { get; set; }
         public Nullable<bool> AllowsPartTime { get; set; }
+        public string Steps { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhDCours> PhDCourses { get; set; }

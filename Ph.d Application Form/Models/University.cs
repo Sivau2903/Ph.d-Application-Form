@@ -42,6 +42,7 @@ namespace Ph.d_Application_Form.Models
         public string PhoneNumber { get; set; }
         public string WebsiteURL { get; set; }
         public string LogoPath { get; set; }
+        public string Steps { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhDCours> PhDCourses { get; set; }

@@ -1,0 +1,51 @@
+﻿
+@model IEnumerable<Ph.d_Application_Form.Models.ApplicantAcademicRecord>
+
+@if (Model != null && Model.Any())
+{
+    <div class="card p-3">
+        <h5 class="text-primary">Academic Details</h5>
+
+        <table class="table table-bordered table-striped mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>Education Level</th>
+                    <th>Institute Name</th>
+                    <th>City</th>
+                    <th>Group / Major Subjects</th>
+                    <th>Medium</th>
+                    <th>Duration (Years)</th>
+                    <th>Mode of Study</th>
+                    <th>Passing Month</th>
+                    <th>Passing Year</th>
+                    <th>Percentage / CGPA</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    <tr>
+                        <td>@record.EducationLevel</td>
+                        <td>@record.InstituteName</td>
+                        <td>@record.City</td>
+                        <td>@record.GroupOrMajorSubjects</td>
+                        <td>@record.MediumOfInstruction</td>
+                        <td>@record.DurationYears</td>
+                        <td>@record.ModeOfStudy</td>
+                        <td>@record.MonthOfPassing</td>
+                        <td>@record.YearOfPassing</td>
+                        <td>@record.PercentageOrCGPA</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p class="text-muted">
+            <strong>Last Updated:</strong> @Model.Max(r => r.InsertedDate)?.ToString("dd-MM-yyyy")
+        </p>
+    </div>
+}
+else
+{
+    <p class="text-danger">No academic details found.</p>
+}
